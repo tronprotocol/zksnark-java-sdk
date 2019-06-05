@@ -24,5 +24,7 @@ hs_err_pid*
 
 
 librustzcash
-build
-
+*build*
+.idea
+*.class
+.gradle
