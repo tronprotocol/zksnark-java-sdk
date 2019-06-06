@@ -34,6 +34,7 @@ add_custom_command(
         -h ${CMAKE_BINARY_DIR}/include
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/main/java/org/tron/common/zksnark/Librustzcash.java"
         DEPENDS ${zksnark_jni_include}
+		depends librustzcash
 )
 
 ExternalProject_Add(
@@ -44,8 +45,6 @@ ExternalProject_Add(
         BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash"
         INSTALL_COMMAND ""
         LOG_BUILD ON)
-
-#add_dependencies(zksnarkjni librustzcash)
 
 ADD_LIBRARY(zksnarkjni
 	SHARED
