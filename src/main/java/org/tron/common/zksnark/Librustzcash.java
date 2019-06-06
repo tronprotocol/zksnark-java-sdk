@@ -3,9 +3,9 @@ package org.tron.common.zksnark;
 class Librustzcash {
   private static final LibrustzcashJNI INSTANCE = new LibrustzcashJNI();
 
-  public void librustzcashInitZksnarkParams(byte[] spend_path, int spend_path_len, String spend_hash,
-      byte[] output_path, int output_path_len, String output_hash) {
-    INSTANCE.librustzcashInitZksnarkParams(spend_path, spend_path_len, spend_hash, output_path, output_path_len, output_hash);
+  public void librustzcashInitZksnarkParams(String spend_path, String spend_hash,
+      String output_path, String output_hash) {
+    INSTANCE.librustzcashInitZksnarkParams(spend_path, spend_hash, output_path, output_hash);
   }
 
   public void librustzcashZip32XskMaster(byte[] data, int size, byte[] m_bytes) {
@@ -140,8 +140,8 @@ class Librustzcash {
 //      }
 //    }
 
-    private native void librustzcashInitZksnarkParams(byte[] spend_path, int spend_path_len, String spend_hash,
-        byte[] output_path, int output_path_len, String output_hash);
+    private native void librustzcashInitZksnarkParams(String spend_path, String spend_hash,
+        String output_path, String output_hash);
 
     private native void librustzcashZip32XskMaster(byte[] data, int size, byte[] m_bytes);
 

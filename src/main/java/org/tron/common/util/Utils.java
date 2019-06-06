@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.io.FileUtils;
-import org.tron.common.zksnark.Librustzcash;
 
 public interface Utils {
 
@@ -25,14 +24,12 @@ public interface Utils {
     } else {
       throw new RuntimeException("unsupportedPlatformException");
     }
-    InputStream in = Librustzcash.class.getClassLoader().getResourceAsStream(
+    InputStream in = Utils.class.getClassLoader().getResourceAsStream(
         "native-package" + File.separator + platform + File.separator + name + extension);
     File fileOut = new File(
         System.getProperty("java.io.tmpdir") + File.separator + name + extension);
     FileUtils.copyToFile(in, fileOut);
     return fileOut.getAbsolutePath();
   }
-
-
 
 }
