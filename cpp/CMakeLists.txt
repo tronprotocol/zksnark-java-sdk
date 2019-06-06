@@ -32,7 +32,7 @@ add_custom_command(
         OUTPUT "${zksnark_jni_include}"
         COMMAND ${Java_JAVAC_EXECUTABLE} -verbose
         -h ${CMAKE_BINARY_DIR}/include
-        "${CMAKE_CURRENT_SOURCE_DIR}/../java/src/main/java/org/tron/common/zksnark/Librustzcash.java"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../src/main/java/org/tron/common/zksnark/Librustzcash.java"
         DEPENDS ${zksnark_jni_include}
 )
 
@@ -60,7 +60,7 @@ target_link_libraries(zksnarkjni
 	)
 
 if(APPLE)
-	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../java/src/main/resources/native-package/macos)
+	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
 elseif(UNIX)
-	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../java/src/main/resources/native-package/linux)
+	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/linux)
 endif()
