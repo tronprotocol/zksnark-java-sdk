@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10.2)
 project(zksnark-jni)
 
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 find_package(Java REQUIRED)
 find_package(JNI REQUIRED)
@@ -17,7 +18,7 @@ include_directories(${JAVA_INCLUDE_PATH2})
 link_directories(lib)
 
 set(zksnark_jni_include org_tron_common_zksnark_Librustzcash_LibrustzcashJNI.h)
-set(zksnark_jni_src LibrustzcashJNIImpl.c)
+set(zksnark_jni_src LibrustzcashJNIImpl.cpp)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src zksnark_srcs)
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include)
@@ -57,3 +58,9 @@ ADD_LIBRARY(zksnarkjni
 target_link_libraries(zksnarkjni
 	"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
 	)
+
+if(APPLE)
+	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../java/src/main/resources/native-package/macos)
+elseif(UNIX)
+	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../java/src/main/resources/native-package/linux)
+endif()
