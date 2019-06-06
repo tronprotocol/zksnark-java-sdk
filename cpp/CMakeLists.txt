@@ -60,7 +60,7 @@ ADD_LIBRARY(zksnarkjni
 		)
 
 target_link_libraries(zksnarkjni
-		optimized "${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
 	)
 
 add_dependencies(zksnarkjni librustzcash)
