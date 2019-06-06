@@ -28,5 +28,4 @@ librustzcash
 .idea
 *.class
 .gradle
-*.so
 *.a
