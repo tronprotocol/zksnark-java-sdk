@@ -24,8 +24,9 @@ hs_err_pid*
 
 
 librustzcash
-*build*
+build
 .idea
 *.class
 .gradle
 *.a
+cmake-build-debug

@@ -1,0 +1,106 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+}
+
+group = "com.github.tronprotocol"
+ext.githubProjectName = "zksnark-java-sdk"
+
+version = project.properties["release.version"]
+
+description = "zksnark-java-sdk."
+
+apply plugin: "java-library"
+apply plugin: "maven"
+apply plugin: "maven-publish"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+// Dependency versions
+// ---------------------------------------
+
+def junitVersion = "4.12"
+// --------------------------------------
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation "junit:junit:$junitVersion"
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = "sources"
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.project {
+            licenses {
+                license {
+                    name 'GNU Lesser General Public License v3.0'
+                    url 'https://www.gnu.org/licenses/gpl-3.0.html'
+                    distribution 'repo'
+                }
+            }
+        }
+    }
+}
+
+test {
+
+    testLogging  {
+        // showing skipped occasionally should prevent CI timeout due to lack of standard output
+        events=["skipped", "failed"] // "started", "passed"
+        // showStandardStreams = true
+        exceptionFormat="full"
+
+        debug.events = ["skipped", "failed"]
+        debug.exceptionFormat="full"
+
+        info.events = ["failed", "skipped"]
+        info.exceptionFormat="full"
+
+        warn.events = ["failed", "skipped"]
+        warn.exceptionFormat="full"
+    }
+
+    maxHeapSize = "1200m"
+
+    if (System.getenv("CI") == null) {
+        maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    }
+}
+
+task testng(type: Test) {
+    useTestNG()
+    testLogging  {
+        events=["skipped", "failed"]
+        exceptionFormat="full"
+
+        debug.events = ["skipped", "failed"]
+        debug.exceptionFormat="full"
+
+        info.events = ["failed", "skipped"]
+        info.exceptionFormat="full"
+
+        warn.events = ["failed", "skipped"]
+        warn.exceptionFormat="full"
+    }
+}
+
+check.dependsOn testng
