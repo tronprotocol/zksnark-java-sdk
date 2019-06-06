@@ -22,6 +22,7 @@ set(zksnark_jni_src LibrustzcashJNIImpl.cpp)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src zksnark_srcs)
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/tmp)
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_BINARY_DIR}")
@@ -32,23 +33,28 @@ add_custom_command(
         OUTPUT "${zksnark_jni_include}"
         COMMAND ${Java_JAVAC_EXECUTABLE} -verbose
         -h ${CMAKE_BINARY_DIR}/include
+		-d ${CMAKE_BINARY_DIR}/tmp
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/main/java/org/tron/common/zksnark/Librustzcash.java"
         DEPENDS ${zksnark_jni_include}
 )
 
 set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/rust)
+set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
+		${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target
+		)
 ExternalProject_Add(
         librustzcash
         DOWNLOAD_COMMAND ""
         CONFIGURE_COMMAND ""
-        BUILD_COMMAND cargo build COMMAND cargo build
+        BUILD_COMMAND cargo build
+#		COMMAND cargo build
 		--package librustzcash
 		--release
         BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash"
         INSTALL_COMMAND ""
-        LOG_BUILD ON)
+        LOG_BUILD OFF)
 
-#add_custom_target(rust ALL DEPENDS )
+add_custom_target(rust ALL DEPENDS librustzcash)
 
 
 ADD_LIBRARY(zksnarkjni
@@ -63,7 +69,7 @@ target_link_libraries(zksnarkjni
 		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
 	)
 
-add_dependencies(zksnarkjni librustzcash)
+add_dependencies(zksnarkjni rust)
 
 if(APPLE)
 	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
