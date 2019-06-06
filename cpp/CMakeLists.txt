@@ -48,7 +48,8 @@ ExternalProject_Add(
         INSTALL_COMMAND ""
         LOG_BUILD ON)
 
-add_custom_target(rust ALL DEPENDS librustzcash)
+#add_custom_target(rust ALL DEPENDS )
+
 
 ADD_LIBRARY(zksnarkjni
 	SHARED
@@ -61,6 +62,8 @@ ADD_LIBRARY(zksnarkjni
 target_link_libraries(zksnarkjni
 		optimized "${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
 	)
+
+add_dependencies(zksnarkjni librustzcash)
 
 if(APPLE)
 	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
