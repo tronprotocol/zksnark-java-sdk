@@ -2,3 +2,4 @@
 	path = rust/librustzcash
 	url = https://github.com/tronprotocol/librustzcash.git
 	branch = feature/zks_dev_new
+	ignore=dirty

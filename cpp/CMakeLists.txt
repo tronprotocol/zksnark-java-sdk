@@ -34,17 +34,21 @@ add_custom_command(
         -h ${CMAKE_BINARY_DIR}/include
         "${CMAKE_CURRENT_SOURCE_DIR}/../src/main/java/org/tron/common/zksnark/Librustzcash.java"
         DEPENDS ${zksnark_jni_include}
-		depends librustzcash
 )
 
+set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/rust)
 ExternalProject_Add(
         librustzcash
         DOWNLOAD_COMMAND ""
         CONFIGURE_COMMAND ""
-        BUILD_COMMAND cargo build COMMAND cargo build --release
+        BUILD_COMMAND cargo build COMMAND cargo build
+		--package librustzcash
+		--release
         BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash"
         INSTALL_COMMAND ""
         LOG_BUILD ON)
+
+add_custom_target(rust ALL DEPENDS librustzcash)
 
 ADD_LIBRARY(zksnarkjni
 	SHARED
@@ -52,10 +56,10 @@ ADD_LIBRARY(zksnarkjni
         ${zksnark_src_dependencies}
         ${zksnark_jni_include}
         ${zksnark_srcs}
-        )
+		)
 
 target_link_libraries(zksnarkjni
-	"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
+		optimized "${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
 	)
 
 if(APPLE)
