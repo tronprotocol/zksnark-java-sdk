@@ -3,3 +3,7 @@
 	url = https://github.com/tronprotocol/librustzcash.git
 	branch = feature/zks_dev_new
 	ignore=dirty
+[submodule "cpp/third_party/libsodium"]
+	path = cpp/third_party/libsodium
+	url = https://github.com/jedisct1/libsodium.git
+	branch = stable
