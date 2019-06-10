@@ -1,6 +1,10 @@
 package org.tron.common.zksnark;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
+import java.util.Arrays;
 import javax.rmi.CORBA.Util;
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.tron.common.util.Utils;
@@ -17,6 +21,23 @@ public class LibrustzcashTest {
     );
   }
 
+  @Test
+  public void librustzcashCheckDiversifier() {
+    System.out.println(Arrays.toString(HexBin.decode("55ed53f0d6550b472cdf38")));
+    boolean ret = LibrustzcashWrapper.getInstance().librustzcashCheckDiversifier(HexBin.decode("55ed53f0d6550b472cdf38"));
+    Assert.assertFalse(ret);
+    System.out.println(Arrays.toString(HexBin.decode("02D72D7702F90B0FE71165")));
+    ret = LibrustzcashWrapper.getInstance().librustzcashCheckDiversifier(HexBin.decode("02D72D7702F90B0FE71165"));
+    Assert.assertTrue(ret);
+  }
+
+  @Test
+  public void librustzcashSaplingVerificationCtxInitAndFree() {
+    long ctx = LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxInit();
+    System.out.println(ctx);
+    Assert.assertNotEquals(0L, ctx);
+    LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxFree(ctx);
+  }
 
 
 }
