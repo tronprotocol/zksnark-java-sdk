@@ -1,16 +1,16 @@
 # libzksnark
 a zksnark jni library
 
-Pull source
+# Pull source
 ```
 $ git clone git@github.com:tronprotocol/zksnark-java-sdk.git --recursive
 ```
-or
+OR
 ```
 $ git clone git@github.com:tronprotocol/zksnark-java-sdk.git
 $ git submodule update --init --recursive
 ```
 
-Required
+# Required
 
 cmake (version >= 3.10.2)
