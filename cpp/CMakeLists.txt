@@ -4,11 +4,9 @@ project(zksnark-java-sdk)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-#set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/third_party/libsodium/contrib)
 
 find_package(Java REQUIRED)
 find_package(JNI REQUIRED)
-#find_package(sodium REQUIRED)
 include(UseJava)
 include(ExternalProject)
 
