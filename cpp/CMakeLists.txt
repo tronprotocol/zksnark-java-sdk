@@ -57,6 +57,10 @@ ExternalProject_Add(
 add_custom_target(rust ALL DEPENDS librustzcash)
 
 
+set(SODIUM_PATH ${CMAKE_CURRENT_SOURCE_DIR}/third_party/libsodium/lib/libsodium.a)
+add_library(sodium-lib STATIC IMPORTED)
+set_property(TARGET sodium-lib PROPERTY IMPORTED_LOCATION ${SODIUM_PATH})
+
 ADD_LIBRARY(zksnarkjni
 	SHARED
 	${CMAKE_CURRENT_SOURCE_DIR}/src/${zksnark_jni_src}
@@ -67,6 +71,7 @@ ADD_LIBRARY(zksnarkjni
 
 target_link_libraries(zksnarkjni
 		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
+		sodium-lib
 	)
 
 add_dependencies(zksnarkjni rust)
