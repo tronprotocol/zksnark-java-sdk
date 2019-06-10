@@ -1,6 +1,7 @@
 # libzksnark
 a zksnark jni library
 
+Pull source
 ```
 $ git clone git@github.com:tronprotocol/zksnark-java-sdk.git --recursive
 ```
