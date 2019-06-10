@@ -31,3 +31,4 @@ build
 *.a
 cmake-build-debug
 *.iml
+out

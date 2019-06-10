@@ -18,7 +18,7 @@ public interface Utils {
     if ("linux".equalsIgnoreCase(os)) {
       platform = "linux";
       extension = ".so";
-    } else if ("macos".equalsIgnoreCase(os)) {
+    } else if ("macos".equalsIgnoreCase(os) || os.toLowerCase().contains("mac")) {
       platform = "macos";
       extension = ".dylib";
     } else {

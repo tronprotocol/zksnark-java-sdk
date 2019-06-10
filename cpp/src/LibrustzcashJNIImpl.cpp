@@ -305,7 +305,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
       reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(witness, nullptr)),
       reinterpret_cast<unsigned char *>(env->GetByteArrayElements(cv, nullptr)),
       reinterpret_cast<unsigned char *>(env->GetByteArrayElements(rk, nullptr)),
-      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(zkproof, nullptr)),
+      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(zkproof, nullptr))
     )
   );
 }
@@ -326,7 +326,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
       reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(rcm, nullptr)),
       (const uint64_t) value,
       reinterpret_cast<unsigned char *>(env->GetByteArrayElements(cv, nullptr)),
-      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(zkproof, nullptr)),
+      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(zkproof, nullptr))
     )
   );
 }
@@ -344,7 +344,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
       reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(ask, nullptr)),
       reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(ar, nullptr)),
       reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(sighash, nullptr)),
-      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy)),
+      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy))
     )
   );
 }
@@ -362,7 +362,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
       (void *)ctx,
       (int64_t) valueBalance,
       reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(sighash, nullptr)),
-      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy)),
+      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy))
     )
   );
 }
