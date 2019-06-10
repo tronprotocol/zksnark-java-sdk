@@ -14,6 +14,10 @@ public class LibrustzcashWrapper {
     }
   }
 
+  public static Librustzcash getInstance() {
+    return INSTANCE;
+  }
+
   public static void main(String[] args) throws IOException {
     INSTANCE.librustzcashInitZksnarkParams(
         "/tmp/params/sapling-spend.params",

@@ -32,4 +32,16 @@ public interface Utils {
     return fileOut.getAbsolutePath();
   }
 
+  static String getParamsFile(String fileName) {
+    InputStream in = Utils.class.getClassLoader()
+        .getResourceAsStream("params" + File.separator + fileName);
+    File fileOut = new File(System.getProperty("java.io.tmpdir") + File.separator + fileName);
+    try {
+      FileUtils.copyToFile(in, fileOut);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+    return fileOut.getAbsolutePath();
+  }
+
 }
