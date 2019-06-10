@@ -11,4 +11,5 @@ $ git submodule update --init --recursive
 ```
 
 Required
+
 cmake (version >= 3.10.2)
