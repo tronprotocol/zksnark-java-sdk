@@ -14,6 +14,10 @@ jboolean bool2jboolean(bool b) {
 }
 
 /*
+ * Matt
+ */
+
+/*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashInitZksnarkParams
  * Signature: ([BILjava/lang/String;[BILjava/lang/String;)V
@@ -121,6 +125,10 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 }
 
 /*
+ * Kiven
+ */
+
+/*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashSaplingKaAgree
  * Signature: ([B[B[B)Z
@@ -221,6 +229,10 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
   (JNIEnv *, jobject, jlong) {{
 
 }}
+
+/*
+ * Olenheim
+ */
 
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
