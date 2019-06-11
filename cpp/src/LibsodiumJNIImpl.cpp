@@ -30,14 +30,25 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
 //                                                      const size_t keylen, const size_t outlen,
 //                                                      const unsigned char *salt,
 //                                                      const unsigned char *personal);
-    return (jint) crypto_generichash_blake2b_init_salt_personal(
+
+    auto key_p = (const unsigned char *) env->GetByteArrayElements(key, nullptr);
+    auto salt_p = (const unsigned char *) env->GetByteArrayElements(salt, nullptr);
+    auto personal_p = (const unsigned char *) env->GetByteArrayElements(personal, nullptr);
+
+    auto ret = (jint) crypto_generichash_blake2b_init_salt_personal(
         (crypto_generichash_blake2b_state *) state,
-        (const unsigned char *) env->GetByteArrayElements(key, nullptr),
+        key_p,
         (const size_t) keylen,
         (const size_t) outlen,
-        (const unsigned char *) env->GetByteArrayElements(salt, nullptr),
-        (const unsigned char *) env->GetByteArrayElements(personal, nullptr)
+        salt_p,
+        personal_p
     );
+
+    env->ReleaseByteArrayElements(key, (jbyte *)key_p, 0);
+    env->ReleaseByteArrayElements(salt, (jbyte *)salt_p, 0);
+    env->ReleaseByteArrayElements(personal, (jbyte *)personal_p, 0);
+
+    return ret;
 }
 
 JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1update
@@ -45,11 +56,16 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
 //    int crypto_generichash_blake2b_update(crypto_generichash_blake2b_state *state,
 //                                          const unsigned char *in,
 //                                          unsigned long long inlen);
-    return (jint) crypto_generichash_blake2b_update(
+    auto in_p = (const unsigned char *) env->GetByteArrayElements(in, nullptr);
+    auto ret = (jint) crypto_generichash_blake2b_update(
         (crypto_generichash_blake2b_state *) state,
-        (const unsigned char *) env->GetByteArrayElements(in, nullptr),
+        in_p,
         (unsigned long long) inlen
     );
+
+    env->ReleaseByteArrayElements(in, (jbyte *)in_p, 0);
+
+    return ret;
 }
 
 JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1final
@@ -57,12 +73,18 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
 //    int crypto_generichash_blake2b_final(crypto_generichash_blake2b_state *state,
 //                                         unsigned char *out,
 //                                         const size_t outlen);
-    jboolean isCopy = JNI_TRUE;
-    return (jint) crypto_generichash_blake2b_final(
+
+    auto out_p = (unsigned char *) env->GetByteArrayElements(out, nullptr);
+
+    auto ret = (jint) crypto_generichash_blake2b_final(
         (crypto_generichash_blake2b_state *) state,
-        (unsigned char *) env->GetByteArrayElements(out, &isCopy),
+        out_p,
         (const size_t) outlen
     );
+
+    env->ReleaseByteArrayElements(out, (jbyte *)out_p, 0);
+
+    return ret;
 }
 
 JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1salt_1personal
@@ -74,17 +96,31 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
 //                                                 size_t keylen,
 //                                                 const unsigned char *salt,
 //                                                 const unsigned char *personal);
-    jboolean isCopy = JNI_TRUE;
-    return (jint) crypto_generichash_blake2b_salt_personal(
-        (unsigned char *) env->GetByteArrayElements(out, &isCopy),
+
+    auto out_p = (unsigned char *) env->GetByteArrayElements(out, nullptr);
+    auto in_p = (const unsigned char *) env->GetByteArrayElements(in, nullptr);
+    auto key_p = (const unsigned char *) env->GetByteArrayElements(key, nullptr);
+    auto salt_p = (const unsigned char *) env->GetByteArrayElements(salt, nullptr);
+    auto personal_p = (const unsigned char *) env->GetByteArrayElements(personal, nullptr);
+
+    auto ret = (jint) crypto_generichash_blake2b_salt_personal(
+        out_p,
         (size_t) outlen,
-        (const unsigned char *) env->GetByteArrayElements(in, nullptr),
+        in_p,
         (unsigned long long) inlen,
-        (const unsigned char *) env->GetByteArrayElements(key, nullptr),
+        key_p,
         (size_t) keylen,
-        (const unsigned char *) env->GetByteArrayElements(salt, nullptr),
-        (const unsigned char *) env->GetByteArrayElements(personal, nullptr)
+        salt_p,
+        personal_p
     );
+
+    env->ReleaseByteArrayElements(out, (jbyte *)out_p, 0);
+    env->ReleaseByteArrayElements(in, (jbyte *)in_p, 0);
+    env->ReleaseByteArrayElements(key, (jbyte *)key_p, 0);
+    env->ReleaseByteArrayElements(salt, (jbyte *)salt_p, 0);
+    env->ReleaseByteArrayElements(personal, (jbyte *)personal_p, 0);
+
+    return ret;
 }
 
 JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1aead_1chacha20poly1305_1ietf_1decrypt
@@ -98,18 +134,36 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
 //                                                  unsigned long long adlen,
 //                                                  const unsigned char *npub,
 //                                                  const unsigned char *k)
-    jboolean isCopy = JNI_TRUE;
-    return (jint) crypto_aead_chacha20poly1305_ietf_decrypt(
-        (unsigned char *) env->GetByteArrayElements(m, &isCopy),
-        (unsigned long long*) env->GetLongArrayElements(mlen_p, &isCopy),
-        (unsigned char *) env->GetByteArrayElements(nsec, &isCopy),
-        (const unsigned char *) env->GetByteArrayElements(c, nullptr),
+    auto m_p = (unsigned char *) env->GetByteArrayElements(m, nullptr);
+    auto mlen_p_p = (unsigned long long*) env->GetLongArrayElements(mlen_p, nullptr);
+    auto nsec_p = (unsigned char *) env->GetByteArrayElements(nsec, nullptr);
+    auto c_p = (const unsigned char *) env->GetByteArrayElements(c, nullptr);
+    auto ad_p = (const unsigned char *) env->GetByteArrayElements(ad, nullptr);
+    auto npub_p = (const unsigned char *) env->GetByteArrayElements(npub, nullptr);
+    auto k_p = (const unsigned char *) env->GetByteArrayElements(k, nullptr);
+
+
+    auto ret = (jint) crypto_aead_chacha20poly1305_ietf_decrypt(
+        m_p,
+        mlen_p_p,
+        nsec_p,
+        c_p,
         (unsigned long long) clen,
-        (const unsigned char *) env->GetByteArrayElements(ad, nullptr),
+        ad_p,
         (unsigned long long) adlen,
-        (const unsigned char *) env->GetByteArrayElements(npub, nullptr),
-        (const unsigned char *) env->GetByteArrayElements(k, nullptr)
+        npub_p,
+        k_p
     );
+
+    env->ReleaseByteArrayElements(m, (jbyte *)m_p, 0);
+    env->ReleaseLongArrayElements(mlen_p, (jlong *)mlen_p_p, 0);
+    env->ReleaseByteArrayElements(nsec, (jbyte *)nsec_p, 0);
+    env->ReleaseByteArrayElements(c, (jbyte *)c_p, 0);
+    env->ReleaseByteArrayElements(ad, (jbyte *)ad_p, 0);
+    env->ReleaseByteArrayElements(npub, (jbyte *)npub_p, 0);
+    env->ReleaseByteArrayElements(k, (jbyte *)k_p, 0);
+
+    return ret;
 }
 
 JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1aead_1chacha20poly1305_1ietf_1encrypt
@@ -124,18 +178,36 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
 //                                                  const unsigned char *npub,
 //                                                  const unsigned char *k);
 
-    jboolean isCopy = JNI_TRUE;
-    return (jint) crypto_aead_chacha20poly1305_ietf_encrypt(
-        (unsigned char *) env->GetByteArrayElements(c, &isCopy),
-        (unsigned long long*) env->GetLongArrayElements(clen_p, &isCopy),
-        (const unsigned char *) env->GetByteArrayElements(m, nullptr),
+    auto c_p = (unsigned char *) env->GetByteArrayElements(c, nullptr);
+    auto clen_p_p = (unsigned long long*) env->GetLongArrayElements(clen_p, nullptr);
+    auto m_p = (const unsigned char *) env->GetByteArrayElements(m, nullptr);
+    auto ad_p = (const unsigned char *) env->GetByteArrayElements(ad, nullptr);
+    auto nsec_p = (const unsigned char *) env->GetByteArrayElements(nsec, nullptr);
+    auto npub_p = (const unsigned char *) env->GetByteArrayElements(npub, nullptr);
+    auto k_p = (const unsigned char *) env->GetByteArrayElements(k, nullptr);
+
+
+    auto ret =  (jint) crypto_aead_chacha20poly1305_ietf_encrypt(
+        c_p,
+        clen_p_p,
+        m_p,
         (unsigned long long) mlen,
-        (const unsigned char *) env->GetByteArrayElements(ad, nullptr),
+        ad_p,
         (unsigned long long) adlen,
-        (const unsigned char *) env->GetByteArrayElements(nsec, nullptr),
-        (const unsigned char *) env->GetByteArrayElements(npub, nullptr),
-        (const unsigned char *) env->GetByteArrayElements(k, nullptr)
+        nsec_p,
+        npub_p,
+        k_p
     );
+
+    env->ReleaseByteArrayElements(c, (jbyte *)c_p, 0);
+    env->ReleaseLongArrayElements(clen_p, (jlong *)clen_p_p, 0);
+    env->ReleaseByteArrayElements(m, (jbyte *) m_p, 0);
+    env->ReleaseByteArrayElements(ad, (jbyte *) ad_p, 0);
+    env->ReleaseByteArrayElements(nsec, (jbyte *) nsec_p, 0);
+    env->ReleaseByteArrayElements(npub, (jbyte *) npub_p, 0);
+    env->ReleaseByteArrayElements(k, (jbyte *) k_p, 0);
+
+    return ret;
 }
 
 
