@@ -20,6 +20,127 @@ public class LibrustzcashTest {
   }
 
   @Test
+  public void librustzcashAskToAkTest() {
+    byte[] ak = new byte[32];
+    byte[] ask = HexBin.decode("ecb7085ce03f3a5fd57e3329cbbde3fcce9e3a0d7a4c2d3c1441cd1837163d0b");
+    LibrustzcashWrapper.getInstance().librustzcashAskToAk(ask, ak);
+    Assert.assertArrayEquals(HexBin.decode("0830552707e438f1e1da6c89afc6581d3b1b674a53991ba51895bf9a3447c12c"), ak);
+  }
+
+  @Test
+  public void librustzcashSaplingComputeNfTest() {
+    byte[] d = HexBin.decode("4c418cf65a7210d9b66588");
+    byte[] pkd = HexBin.decode("4f05edbf1abe79773a46dbf16f43aa05290225487b656413533c405272b9bd5d");
+    long value = 99990000L;
+    byte[] rcm = HexBin.decode("0e6eb90683c2a3e2d6477c68766e19e2376d24802684e1e69bf15ef074b3c206");
+    byte[] ak = HexBin.decode("11b96c93a610b6cb04769f8df693d610b781374348b38939b3a109e317d0845d");
+    byte[] nk = HexBin.decode("be75a89935512d029fddcf7b93466a417deea17ceb641e8372731a7367ea0464");
+    long position = 10;
+    byte[] result = new byte[32];
+    LibrustzcashWrapper.getInstance().librustzcashSaplingComputeNf(d, pkd, value, rcm, ak, nk, position, result);
+    Assert.assertArrayEquals(HexBin.decode("7f22468cae810da22743f8f66278b690a729c70aa0ee88d6736d43b5ea29ddf1"), result);
+  }
+
+  @Test
+  public void librustzcashNskToNkTest() {
+    byte[] nk = new byte[32];
+    byte[] nsk = HexBin.decode("f07e24db728fac4bd315c4f46c83494a469823a0c3b4fc6125e3c56a3d352a05");
+    LibrustzcashWrapper.getInstance().librustzcashNskToNk(nsk, nk);
+    Assert.assertArrayEquals(HexBin.decode("92424303a0c7a161ca581dd01b62e1cfa763ddf8b2c6ff15813ba069b3ede89f"), nk);
+  }
+
+  @Test
+  public void librustzcashSaplingGenerateRTest() {
+    byte[] alpha = new byte[32];
+    LibrustzcashWrapper.getInstance().librustzcashSaplingGenerateR(alpha);
+    System.out.println( HexBin.encode(alpha));
+    Assert.assertFalse(Arrays.equals(alpha, HexBin.decode("0000000000000000000000000000000000000000000000000000000000000000")));
+  }
+
+  @Test
+  public void librustzcashSaplingKaDerivepublicTest() {
+    byte[] d = HexBin.decode("5558c672a1852a5dcd254c");
+    byte[] epk = new byte[32];
+    byte[] esk = HexBin.decode("1d67753f5e305bc47cb0685cda86dc865599b89adb4767bfc9411bff08714601");
+    LibrustzcashWrapper.getInstance().librustzcashSaplingKaDerivepublic(d, esk, epk);
+    Assert.assertArrayEquals(HexBin.decode("98d49ad63aba6e949e08bfd727a965e4862233c3c1c45de6355618abaa57a555"), epk);
+  }
+
+  @Test
+  public void librustzcashCrhIvkTest() {
+    byte[] ak = HexBin.decode("0830552707e438f1e1da6c89afc6581d3b1b674a53991ba51895bf9a3447c12c");
+    byte[] nk = HexBin.decode("92424303a0c7a161ca581dd01b62e1cfa763ddf8b2c6ff15813ba069b3ede89f");
+    byte[] ivk = new byte[32];
+    LibrustzcashWrapper.getInstance().librustzcashCrhIvk(ak, nk, ivk);
+    Assert.assertArrayEquals(HexBin.decode("f0cfb482b380f196906e82a22bf9afa5ec324d5062c70639adbcd5f35c4f7b07"), ivk);
+  }
+
+  @Test
+  public void librustzcashSaplingKaAgreeTest() {
+    byte[] esk = HexBin.decode("49e83d29a922f83da17a08e4a6be84d5d007752c2394b66fed456c5ef2e82706");
+    byte[] pkd = HexBin.decode("11f3701326cda3e61bb83490ed3de05960d56985a4031a876d8c899345919843");
+    byte[] dhsecret = new byte[32];
+    LibrustzcashWrapper.getInstance().librustzcashSaplingKaAgree(pkd, esk, dhsecret);
+    Assert.assertArrayEquals(HexBin.decode("6d76e9881454e5f3e6991b042442e3e66d61dade7f10b9c5a89ba77bc24e3c6d"), dhsecret);
+  }
+
+  @Test
+  public void librustzcashCheckDiversifierTest() {
+    System.out.println(Arrays.toString(HexBin.decode("55ed53f0d6550b472cdf38")));
+    boolean ret = LibrustzcashWrapper.getInstance().librustzcashCheckDiversifier(HexBin.decode("55ed53f0d6550b472cdf38"));
+    Assert.assertFalse(ret);
+    System.out.println(Arrays.toString(HexBin.decode("02D72D7702F90B0FE71165")));
+    ret = LibrustzcashWrapper.getInstance().librustzcashCheckDiversifier(HexBin.decode("02D72D7702F90B0FE71165"));
+    Assert.assertTrue(ret);
+  }
+
+  @Test
+  public void librustzcashIvkToPkdTest() {
+    byte[] ivk = HexBin.decode("f0cfb482b380f196906e82a22bf9afa5ec324d5062c70639adbcd5f35c4f7b07");
+    byte[] d = HexBin.decode("b4875a6d871b9c9dce4cad");
+    byte[] pkd = new byte[32];
+    Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashIvkToPkd(ivk, d, pkd));
+    Assert.assertArrayEquals(HexBin.decode("7eb89170c8003264e0d4001ab49dbb10bef32c4dac780f210dd70c0948d22634"), pkd);
+  }
+
+  @Test
+  public void librustzcashSaplingComputeCmTest() {
+    byte[] diversifier = HexBin.decode("fc6eb90855700861de6639");
+    byte[] pkd = HexBin.decode("1abfbf64bc4934aaf7f29b9fea995e5a16e654e63dbe07db0ef035499d216e19");
+    long value = 9990000000L;
+    byte[] r = HexBin.decode("08e3a2ff1101b628147125b786c757b483f1cf7c309f8a647055bfb1ca819c02");
+    byte[] cm = new byte[32];
+    Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSaplingComputeCm(diversifier, pkd, value, r, cm));
+    Assert.assertArrayEquals(HexBin.decode("0481f3949ddcd8e3d5e8018893dbad3df2f6fd09b406acdf32a68a3032f37920"), cm);
+  }
+
+  @Test
+  public void librustzcashSaplingSpendProofTest() {
+    long ctx = LibrustzcashWrapper.getInstance().librustzcashSaplingProvingCtxInit();
+
+    byte[] ak = HexBin.decode("2021c369f4b901cc4f37d80eac2d676aa41beb2a2d835d5120005714bc687657");
+    byte[] nsk = HexBin.decode("48ea637742229ee87b8ebffd435b27469bee46ecb7732a6e3fb27939d442c006");
+    byte[] d = HexBin.decode("f689bf97e2112cae82eb69");
+    byte[] rcm = HexBin.decode("bf4b2042e3e8c4a0b390e407a79a0b46e36eff4f7bb54b2349dbb0046ee21e02");
+    byte[] alpha = HexBin.decode("1ddfb37119459a9733b3d2b4df35e9b18964568d75e43d79c6cdf7c1052e0501");
+    long value = 100L;
+    byte[] anchor = HexBin.decode("653088e8ec266047956c474b91b259ff4eaecf8d10ab4b0cac9e5f53747f5f17");
+    byte[] voucherPath = HexBin.decode("2020b2eed031d4d6a4f02a097f80b54cc1541d4163c6b6f5971f88b6e41d35c538142012935f14b676509b81eb49ef25f39269ed72309238b4c145803544b646dca62d20e1f34b034d4a3cd28557e2907ebf990c918f64ecb50a94f01d6fda5ca5c7ef722028e7b841dcbc47cceb69d7cb8d94245fb7cb2ba3a7a6bc18f13f945f7dbd6e2a20a5122c08ff9c161d9ca6fc462073396c7d7d38e8ee48cdb3bea7e2230134ed6a20d2e1642c9a462229289e5b0e3b7f9008e0301cbb93385ee0e21da2545073cb582016d6252968971a83da8521d65382e61f0176646d771c91528e3276ee45383e4a20fee0e52802cb0c46b1eb4d376c62697f4759f6c8917fa352571202fd778fd712204c6937d78f42685f84b43ad3b7b00f81285662f85c6a68ef11d62ad1a3ee0850200769557bc682b1bf308646fd0b22e648e8b9e98f57e29f5af40f6edb833e2c492008eeab0c13abd6069e6310197bf80f9c1ea6de78fd19cbae24d4a520e6cf3023208d5fa43e5a10d11605ac7430ba1f5d81fb1b68d29a640405767749e841527673206aca8448d8263e547d5ff2950e2ed3839e998d31cbc6ac9fd57bc6002b15921620cd1c8dbf6e3acc7a80439bc4962cf25b9dce7c896f3a5bd70803fc5a0e33cf00206edb16d01907b759977d7650dad7e3ec049af1a3d875380b697c862c9ec5d51c201ea6675f9551eeb9dfaaa9247bc9858270d3d3a4c5afa7177a984d5ed1be245120d6acdedf95f608e09fa53fb43dcd0990475726c5131210c9e5caeab97f0e642f20bd74b25aacb92378a871bf27d225cfc26baca344a1ea35fdd94510f3d157082c201b77dac4d24fb7258c3c528704c59430b630718bec486421837021cf75dab65120ec677114c27206f5debc1c1ed66f95e2b1885da5b7be3d736b1de98579473048204777c8776a3b1e69b73a62fa701fa4f7a6282d9aee2c7a6b82e7937d7081c23c20ba49b659fbd0b7334211ea6a9d9df185c757e70aa81da562fb912b84f49bce722043ff5457f13b926b61df552d4e402ee6dc1463f99a535f9a713439264d5b616b207b99abdc3730991cc9274727d7d82d28cb794edbc7034b4f0053ff7c4b68044420d6c639ac24b46bd19341c91b13fdcab31581ddaf7f1411336a271f3d0aa52813208ac9cf9c391e3fd42891d27238a81a8a5c1d3a72b1bcbea8cf44a58ce738961320912d82b2c2bca231f71efcf61737fbf0a08befa0416215aeef53e8bb6d23390a20e110de65c907b9dea4ae0bd83a4b0a51bea175646a64c12b4c9f931b2cb31b4920d8283386ef2ef07ebdbb4383c12a739a953a4d6e0d6fb1139a4036d693bfbb6c20ffe9fc03f18b176c998806439ff0bb8ad193afdb27b2ccbc88856916dd804e342062324ff2c329e99193a74d28a585a3c167a93bf41a255135529c913bd9b1e666207c3ea01a6e3a3d90cf59cd789e467044b5cd78eb2c84cc6816f960746d0e036c0200000000000000");
+
+    byte[] cv = new byte[32];
+    byte[] rk = new byte[32];
+    byte[] zkproof = new byte[192];
+
+    Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSaplingSpendProof(
+        ctx, ak, nsk, d, rcm, alpha, value, anchor, voucherPath, cv, rk, zkproof));
+//    Assert.assertArrayEquals(HexBin.decode("5319ead32cc65e69bb695df3f6ab2ab8b8c756ea1ef98b670395584a192a4e52"), cv);
+//    Assert.assertArrayEquals(HexBin.decode("7c6c450524db8e0b570d52c60f546ee2d5a69ac11aac385f68fb35f8d9bdf451"), rk);
+//    Assert.assertArrayEquals(
+//        HexBin.decode("a4fc137d259f2b3b092e36e2b296d1845002c5c32365e532b749fb6b8dc909b668f824c3a96156d26ef370f072e34e17a82e485a9afc6fc3def1f6cf34713b01ca5f6e4fddb83af851b2db3434ef22f8a63253bae758f958d95153d0a5bb387e0f98211217edf40accdacd5f13d71c7b93f1b3924e0a156dc7af1269a6e6f7caf8c38750c42196c2915e15acae12c6a2a2682f680e1e4496ee8a4a14b0e837e8497a2fa0d794c99e43d856c8a451c21d7284c81423134fe818f56095ac9a3ad6"), zkproof);
+    LibrustzcashWrapper.getInstance().librustzcashSaplingProvingCtxFree(ctx);
+  }
+
+  @Test
   public void librustzcashCheckDiversifier() {
     System.out.println(Arrays.toString(HexBin.decode("55ed53f0d6550b472cdf38")));
     boolean ret = LibrustzcashWrapper.getInstance()
