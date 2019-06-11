@@ -70,22 +70,15 @@ add_custom_target(rust ALL DEPENDS librustzcash)
 
 
 # libsodium
-set(INSTALL_DIR ${CMAKE_BINARY_DIR}/rust)
-if(EXISTS "${INSTALL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a")
-	message("libsodium.a exists, not need build.")
-else()
-	message("libsodium.a not exists, build")
-	set (nacl_ver 1.0.15)
-	ExternalProject_Add(libsodium
-			URL https://github.com/jedisct1/libsodium/releases/download/${nacl_ver}/libsodium-${nacl_ver}.tar.gz
-			BUILD_IN_SOURCE 1
-			CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
-			BUILD_COMMAND <SOURCE_DIR>/configure --disable-pie
-			INSTALL_COMMAND make -j4
-			)
-	ExternalProject_Get_Property(libsodium INSTALL_DIR)
-endif()
-
+set (nacl_ver 1.0.15)
+ExternalProject_Add(libsodium
+		URL https://github.com/jedisct1/libsodium/releases/download/${nacl_ver}/libsodium-${nacl_ver}.tar.gz
+		BUILD_IN_SOURCE 1
+		CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
+		BUILD_COMMAND <SOURCE_DIR>/configure --disable-pie
+		INSTALL_COMMAND make -j4
+		)
+ExternalProject_Get_Property(libsodium INSTALL_DIR)
 set(NACL_DIR ${INSTALL_DIR})
 include_directories(${NACL_DIR}/src/libsodium/src/libsodium/include)
 #add_library(nacl_lib STATIC IMPORTED)
@@ -107,6 +100,7 @@ target_link_libraries(zksnarkjni
 	)
 
 add_dependencies(zksnarkjni rust)
+add_dependencies(zksnarkjni libsodium)
 
 if(APPLE)
 	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
