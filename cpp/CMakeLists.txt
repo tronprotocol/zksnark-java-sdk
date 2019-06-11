@@ -74,7 +74,7 @@ set(INSTALL_DIR ${CMAKE_BINARY_DIR}/rust)
 if(EXISTS "${INSTALL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a")
 	message("libsodium.a exists, not need build.")
 else()
-	message("libsodium.a not exists, build ...................")
+	message("libsodium.a not exists, build")
 	set (nacl_ver 1.0.15)
 	ExternalProject_Add(libsodium
 			URL https://github.com/jedisct1/libsodium/releases/download/${nacl_ver}/libsodium-${nacl_ver}.tar.gz
