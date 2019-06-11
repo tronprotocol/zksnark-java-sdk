@@ -219,11 +219,18 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSaplingKaAgree
   (JNIEnv * env, jobject, jbyteArray p, jbyteArray sk, jbyteArray result) {
   jboolean isCopy = JNI_TRUE;
-  return bool2jboolean(librustzcash_sapling_ka_agree(
-    reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(p, nullptr)),
-    reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(sk, nullptr)),
-    reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy))
-  ));
+  const unsigned char * pPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(p, nullptr));
+  const unsigned char * skPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(sk, nullptr));
+  unsigned char * r = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy));
+  if (r == NULL || pPoint == NULL || skPoint == NULL)
+  {
+    return JNI_FALSE;
+  }
+  jboolean jb = bool2jboolean(librustzcash_sapling_ka_agree(pPoint,skPoint,r));
+  env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+  env->ReleaseByteArrayElements(p,(jbyte*)pPoint,0);
+  env->ReleaseByteArrayElements(sk,(jbyte*)skPoint,0);
+  return jb;
 }
 
 /*
@@ -233,9 +240,14 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
  */
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashCheckDiversifier
   (JNIEnv * env, jobject, jbyteArray diversifier) {
-    return bool2jboolean(
-        librustzcash_check_diversifier(
-            reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(diversifier, nullptr))));
+  const unsigned char * d = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(diversifier, nullptr));
+  if (d == NULL)
+  {
+    return JNI_FALSE;
+  }
+  jboolean jb = bool2jboolean(librustzcash_check_diversifier(d));
+  env->ReleaseByteArrayElements(diversifier,(jbyte*)d,0);
+  return jb;
 }
 
 /*
@@ -246,13 +258,18 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashIvkToPkd
   (JNIEnv * env, jobject, jbyteArray ivk, jbyteArray diversifier, jbyteArray result) {
   jboolean isCopy = JNI_TRUE;
-  return bool2jboolean(
-    librustzcash_ivk_to_pkd(
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(ivk, nullptr)),
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(diversifier, nullptr)),
-      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy))
-    )
-  );
+  const unsigned char * i = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(ivk, nullptr));
+  const unsigned char * d = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(diversifier, nullptr));
+  unsigned char * r = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy));
+  if (r == NULL || i == NULL || d == NULL)
+  {
+    return JNI_FALSE;
+  }
+  jboolean jb = bool2jboolean(librustzcash_ivk_to_pkd(i,d,r));
+  env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+  env->ReleaseByteArrayElements(ivk,(jbyte*)i,0);
+  env->ReleaseByteArrayElements(diversifier,(jbyte*)d,0);
+  return jb;
 }
 
 /*
@@ -263,15 +280,20 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSaplingComputeCm
   (JNIEnv * env, jobject, jbyteArray diversifier, jbyteArray pk_d, jlong value, jbyteArray r, jbyteArray result) {
   jboolean isCopy = JNI_TRUE;
-  return bool2jboolean(
-    librustzcash_sapling_compute_cm(
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(diversifier, nullptr)),
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(pk_d, nullptr)),
-      (const uint64_t) value,
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(r, nullptr)),
-      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy))
-    )
-  );
+  const unsigned char * d = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(diversifier, nullptr));
+  const unsigned char * p = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(pk_d, nullptr));
+  const unsigned char * rPonit = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(r, nullptr));
+  unsigned char * rs = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(result, &isCopy));
+  if (rs == NULL || d == NULL || p == NULL || rPonit == NULL)
+  {
+    return JNI_FALSE;
+  }
+  jboolean jb = bool2jboolean(librustzcash_sapling_compute_cm(d,p,(const uint64_t) value,rPonit,rs));
+  env->ReleaseByteArrayElements(result,(jbyte*)rs,0);
+  env->ReleaseByteArrayElements(diversifier,(jbyte*)d,0);
+  env->ReleaseByteArrayElements(pk_d,(jbyte*)p,0);
+  env->ReleaseByteArrayElements(r,(jbyte*)rPonit,0);
+  return jb;
 }
 
 /*
@@ -292,22 +314,35 @@ JNIEXPORT jlong JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzc
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSaplingSpendProof
   (JNIEnv * env, jobject, jlong ctx, jbyteArray ak, jbyteArray nsk, jbyteArray diversifier, jbyteArray rcm,jbyteArray ar,
   jlong value, jbyteArray anchor, jbyteArray witness, jbyteArray cv, jbyteArray rk, jbyteArray zkproof) {
-  return bool2jboolean(
-    librustzcash_sapling_spend_proof(
-      (void *)ctx,
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(ak, nullptr)),
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(nsk, nullptr)),
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(diversifier, nullptr)),
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(rcm, nullptr)),
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(ar, nullptr)),
-      (const uint64_t) value,
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(anchor, nullptr)),
-      reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(witness, nullptr)),
-      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(cv, nullptr)),
-      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(rk, nullptr)),
-      reinterpret_cast<unsigned char *>(env->GetByteArrayElements(zkproof, nullptr))
-    )
-  );
+
+  const unsigned char * akPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(ak, nullptr));
+  const unsigned char * nskPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(nsk, nullptr));
+  const unsigned char * dPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(diversifier, nullptr));
+  const unsigned char * rcmPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(rcm, nullptr));
+  const unsigned char * arPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(ar, nullptr));
+  const unsigned char * anchorPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(anchor, nullptr));
+  const unsigned char * wPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(witness, nullptr));
+  unsigned char * cvPoint = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(cv, nullptr))
+  unsigned char * rkPoint = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(rk, nullptr));
+  unsigned char * zPoint = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(zkproof, nullptr));
+  if (akPoint == NULL || nskPoint == NULL || dPoint == NULL || rcmPoint == NULL || arPoint == NULL || anchorPoint == NULL
+    || wPoint == NULL || cvPoint == NULL || rkPoint == NULL || zPoint == NULL)
+  {
+    return JNI_FALSE;
+  }
+  jboolean jb = bool2jboolean(librustzcash_sapling_spend_proof((void *)ctx,akPoint,nskPoint,dPoint,rcmPoint,arPoint,
+      (const uint64_t) value,anchorPoint,wPoint,cvPoint,rkPoint,zPoint));
+  env->ReleaseByteArrayElements(ak,(jbyte*)akPoint,0);
+  env->ReleaseByteArrayElements(nsk,(jbyte*)nskPoint,0);
+  env->ReleaseByteArrayElements(diversifier,(jbyte*)dPoint,0);
+  env->ReleaseByteArrayElements(rcm,(jbyte*)rcmPoint,0);
+  env->ReleaseByteArrayElements(ar,(jbyte*)arPoint,0);
+  env->ReleaseByteArrayElements(anchor,(jbyte*)anchorPoint,0);
+  env->ReleaseByteArrayElements(witness,(jbyte*)wPoint,0);
+  env->ReleaseByteArrayElements(cv,(jbyte*)cvPoint,0);
+  env->ReleaseByteArrayElements(rk,(jbyte*)rkPoint,0);
+  env->ReleaseByteArrayElements(zkproof,(jbyte*)zPoint,0);
+  return jb;
 }
 
 /*
@@ -317,6 +352,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
  */
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSaplingOutputProof
   (JNIEnv * env, jobject, jlong ctx, jbyteArray esk, jbyteArray diversifier, jbyteArray pk_d, jbyteArray rcm, jlong value, jbyteArray cv, jbyteArray zkproof) {
+
   return bool2jboolean(
     librustzcash_sapling_output_proof(
       (void *)ctx,
@@ -523,8 +559,13 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
   (JNIEnv *env, jobject, jbyteArray input, jbyteArray result) {
 //    void librustzcash_to_scalar(const unsigned char *input, unsigned char *result);
     jboolean isCopy = JNI_TRUE;
-    librustzcash_to_scalar(
-        (const unsigned char *) env->GetByteArrayElements(input, nullptr),
-        (unsigned char *) env->GetByteArrayElements(result, &isCopy)
-    );
+    const unsigned char * i = env->GetByteArrayElements(input, nullptr);
+    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, &isCopy);
+    librustzcash_to_scalar(i,r);
+    if (r == NULL || i == NULL)
+    {
+      return;
+    }
+    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+    env->ReleaseByteArrayElements(input,(jbyte*)i,0);
 }

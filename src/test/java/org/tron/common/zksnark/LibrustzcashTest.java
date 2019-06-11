@@ -39,5 +39,12 @@ public class LibrustzcashTest {
     LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxFree(ctx);
   }
 
+  @Test
+  public void librustzcashToScalar() {
+    byte[] result = new byte[32];
+    LibrustzcashWrapper.getInstance().librustzcashToScalar(HexBin.decode("55ed53f0d6550b472cdf38"),result);
+    Assert.assertFalse(Arrays.equals(result, new byte[32]));
+  }
+
 
 }
