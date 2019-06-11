@@ -322,7 +322,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
   const unsigned char * arPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(ar, nullptr));
   const unsigned char * anchorPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(anchor, nullptr));
   const unsigned char * wPoint = reinterpret_cast<const unsigned char *>(env->GetByteArrayElements(witness, nullptr));
-  unsigned char * cvPoint = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(cv, nullptr))
+  unsigned char * cvPoint = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(cv, nullptr));
   unsigned char * rkPoint = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(rk, nullptr));
   unsigned char * zPoint = reinterpret_cast<unsigned char *>(env->GetByteArrayElements(zkproof, nullptr));
   if (akPoint == NULL || nskPoint == NULL || dPoint == NULL || rcmPoint == NULL || arPoint == NULL || anchorPoint == NULL
@@ -559,7 +559,7 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
   (JNIEnv *env, jobject, jbyteArray input, jbyteArray result) {
 //    void librustzcash_to_scalar(const unsigned char *input, unsigned char *result);
     jboolean isCopy = JNI_TRUE;
-    const unsigned char * i = env->GetByteArrayElements(input, nullptr);
+    const unsigned char * i = (const unsigned char *) env->GetByteArrayElements(input, nullptr);
     unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, &isCopy);
     librustzcash_to_scalar(i,r);
     if (r == NULL || i == NULL)
