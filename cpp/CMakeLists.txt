@@ -4,7 +4,8 @@ project(zksnark-java-sdk)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-
+set(CMAKE_BUILD_TYPE Release)
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -DNDEBUG -pthread")
 find_package(Java REQUIRED)
 find_package(JNI REQUIRED)
 include(UseJava)
