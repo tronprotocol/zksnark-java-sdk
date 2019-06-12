@@ -614,10 +614,9 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 //        const unsigned char *b,
 //        unsigned char *result
 //    );
-    jboolean isCopy = JNI_TRUE;
     const unsigned char * aPoint = (const unsigned char *) env->GetByteArrayElements(a, nullptr);
     const unsigned char * bPoint = (const unsigned char *) env->GetByteArrayElements(b, nullptr);
-    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, &isCopy);
+    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
     if (aPoint == NULL || bPoint == NULL || r == NULL)
     {
       return;
