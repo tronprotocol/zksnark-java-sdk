@@ -619,10 +619,10 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
     std::cout << "print 1" << std::endl;
 //    const unsigned char * aPoint = (const unsigned char *) env->GetByteArrayElements(a, nullptr);
     uint256 au = uint256();
-    env->GetByteArrayRegion(a, 0, env->GetArrayLength(a), (jbyte*) au.begin());
+    env->GetByteArrayRegion(a, 0, 32, (jbyte*) au.begin());
 //    const unsigned char * bPoint = (const unsigned char *) env->GetByteArrayElements(b, nullptr);
     uint256 bu = uint256();
-    env->GetByteArrayRegion(b, 0, env->GetArrayLength(b), (jbyte*) bu.begin());
+    env->GetByteArrayRegion(b, 0, 32, (jbyte*) bu.begin());
 //    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
     uint256 ru = uint256();
 //    if (aPoint == NULL || bPoint == NULL || r == NULL)
@@ -631,10 +631,19 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 //    }
 //    librustzcash_merkle_hash((size_t) depth,aPoint,bPoint,r);
     librustzcash_merkle_hash((size_t) depth, au.begin(), bu.begin(), ru.begin());
-    env->SetByteArrayRegion(result, 0, env->GetArrayLength(result), (jbyte*) ru.begin());
+    env->SetByteArrayRegion(result, 0, 32, (jbyte*) ru.begin());
 //    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
 //    env->ReleaseByteArrayElements(a,(jbyte*)aPoint,0);
 //    env->ReleaseByteArrayElements(b,(jbyte*)bPoint,0);
+    std::cout << "-------begin--------"
+    << "a: " << au.GetHex()
+    << std::endl
+    << "b: " << bu.GetHex()
+    << std::endl
+    << "r: " << ru.GetHex()
+    << std::endl
+    << "-------end---------"
+    << std::endl;
     std::cout << "print 9" << std::endl;
 }
 
@@ -656,6 +665,11 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 //    }
 //    librustzcash_tree_uncommitted(r);
 //    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+
+    uint256 ru = uint256();
+    librustzcash_tree_uncommitted(ru.begin());
+    std::cout << "uncommitted ru: " << ru.GetHex() << std::endl;
+    env->SetByteArrayRegion(result, 0, 32, (jbyte*) ru.begin());
 }
 
 /*
