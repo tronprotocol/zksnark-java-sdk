@@ -4,6 +4,7 @@
 
 #include "org_tron_common_zksnark_Librustzcash_LibrustzcashJNI.h"
 #include "librustzcash.h"
+#include "uint256.h"
 #include <iostream>
 
 jboolean bool2jboolean(bool b) {
@@ -616,24 +617,23 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 //        unsigned char *result
 //    );
     std::cout << "print 1" << std::endl;
-    const unsigned char * aPoint = (const unsigned char *) env->GetByteArrayElements(a, nullptr);
-    std::cout << "print 2" << std::endl;
-    const unsigned char * bPoint = (const unsigned char *) env->GetByteArrayElements(b, nullptr);
-    std::cout << "print 3" << std::endl;
+//    const unsigned char * aPoint = (const unsigned char *) env->GetByteArrayElements(a, nullptr);
+    uint256 au;
+    env->GetByteArrayRegion(a, 0, env->GetArrayLength(a), (jbyte*) au.begin());
+//    const unsigned char * bPoint = (const unsigned char *) env->GetByteArrayElements(b, nullptr);
+    uint256 bu;
+    env->GetByteArrayRegion(b, 0, env->GetArrayLength(b), (jbyte*) bu.begin());
     unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
-    std::cout << "print 4" << std::endl;
-    if (aPoint == NULL || bPoint == NULL || r == NULL)
-    {
-      return;
-    }
-    std::cout << "print 5" << std::endl;
-    librustzcash_merkle_hash((size_t) depth,aPoint,bPoint,r);
-    std::cout << "print 6" << std::endl;
-    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
-    std::cout << "print 7" << std::endl;
-    env->ReleaseByteArrayElements(a,(jbyte*)aPoint,0);
-    std::cout << "print 8" << std::endl;
-    env->ReleaseByteArrayElements(b,(jbyte*)bPoint,0);
+    uint256 ru;
+//    if (aPoint == NULL || bPoint == NULL || r == NULL)
+//    {
+//      return;
+//    }
+//    librustzcash_merkle_hash((size_t) depth,aPoint,bPoint,r);
+    librustzcash_merkle_hash((size_t) depth, au.begin(), bu.begin(), ru.begin());
+//    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+//    env->ReleaseByteArrayElements(a,(jbyte*)aPoint,0);
+//    env->ReleaseByteArrayElements(b,(jbyte*)bPoint,0);
     std::cout << "print 9" << std::endl;
 }
 
