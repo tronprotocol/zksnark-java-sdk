@@ -27,7 +27,7 @@ public interface Utils {
     InputStream in = Utils.class.getClassLoader().getResourceAsStream(
         "native-package" + File.separator + platform + File.separator + name + extension);
     File fileOut = new File(
-        System.getProperty("java.io.tmpdir") + File.separator + name + extension);
+        System.getProperty("java.io.tmpdir") + File.separator + name + extension + "." + System.currentTimeMillis());
     FileUtils.copyToFile(in, fileOut);
     return fileOut.getAbsolutePath();
   }
