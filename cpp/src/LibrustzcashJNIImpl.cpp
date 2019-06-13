@@ -615,26 +615,17 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 //        const unsigned char *b,
 //        unsigned char *result
 //    );
-    std::cout << "print 1" << std::endl;
     const unsigned char * aPoint = (const unsigned char *) env->GetByteArrayElements(a, nullptr);
-    std::cout << "print 2" << std::endl;
     const unsigned char * bPoint = (const unsigned char *) env->GetByteArrayElements(b, nullptr);
-    std::cout << "print 3" << std::endl;
     unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
-    std::cout << "print 4" << std::endl;
     if (aPoint == NULL || bPoint == NULL || r == NULL)
     {
       return;
     }
-    std::cout << "print 5" << std::endl;
     librustzcash_merkle_hash((size_t) depth,aPoint,bPoint,r);
-    std::cout << "print 6" << std::endl;
     env->ReleaseByteArrayElements(result,(jbyte*)r,0);
-    std::cout << "print 7" << std::endl;
     env->ReleaseByteArrayElements(a,(jbyte*)aPoint,0);
-    std::cout << "print 8" << std::endl;
     env->ReleaseByteArrayElements(b,(jbyte*)bPoint,0);
-    std::cout << "print 9" << std::endl;
 }
 
 /*
