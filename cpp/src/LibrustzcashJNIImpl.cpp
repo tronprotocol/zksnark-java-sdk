@@ -618,19 +618,20 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 //    );
     std::cout << "print 1" << std::endl;
 //    const unsigned char * aPoint = (const unsigned char *) env->GetByteArrayElements(a, nullptr);
-    uint256 au;
+    uint256 au = uint256();
     env->GetByteArrayRegion(a, 0, env->GetArrayLength(a), (jbyte*) au.begin());
 //    const unsigned char * bPoint = (const unsigned char *) env->GetByteArrayElements(b, nullptr);
-    uint256 bu;
+    uint256 bu = uint256();
     env->GetByteArrayRegion(b, 0, env->GetArrayLength(b), (jbyte*) bu.begin());
-    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
-    uint256 ru;
+//    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
+    uint256 ru = uint256();
 //    if (aPoint == NULL || bPoint == NULL || r == NULL)
 //    {
 //      return;
 //    }
 //    librustzcash_merkle_hash((size_t) depth,aPoint,bPoint,r);
     librustzcash_merkle_hash((size_t) depth, au.begin(), bu.begin(), ru.begin());
+    env->SetByteArrayRegion(result, 0, env->GetArrayLength(result), (jbyte*) ru.begin());
 //    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
 //    env->ReleaseByteArrayElements(a,(jbyte*)aPoint,0);
 //    env->ReleaseByteArrayElements(b,(jbyte*)bPoint,0);
