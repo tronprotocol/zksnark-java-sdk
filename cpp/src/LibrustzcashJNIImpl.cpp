@@ -25,20 +25,20 @@ jboolean bool2jboolean(bool b) {
  */
 JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashInitZksnarkParams
     (JNIEnv * env, jobject, jstring spend_path, jstring spend_hash, jstring output_path, jstring output_hash) {
-//    const codeunit* sp = (const codeunit*) env->GetStringUTFChars(spend_path, nullptr);
-//    const char* sh = (const char*) env->GetStringUTFChars(spend_hash, nullptr);
-//    const codeunit* op = (const codeunit*)  env->GetStringUTFChars(output_path, nullptr);
-//    const char* oh = (const char*) env->GetStringUTFChars(output_hash, nullptr);
-//    if (sp == NULL || sh == NULL || op == NULL || oh == NULL)
-//    {
-//      return;
-//    }
-//    librustzcash_init_zksnark_params(sp, (size_t) env->GetStringLength(spend_path), sh, op,
-//    (size_t) env->GetStringLength(output_path), oh);
-//    env->ReleaseStringUTFChars(spend_path, (const char*)sp);
-//    env->ReleaseStringUTFChars(spend_hash, sh);
-//    env->ReleaseStringUTFChars(output_path, (const char* )op);
-//    env->ReleaseStringUTFChars(output_hash, oh);
+    const codeunit* sp = (const codeunit*) env->GetStringUTFChars(spend_path, nullptr);
+    const char* sh = (const char*) env->GetStringUTFChars(spend_hash, nullptr);
+    const codeunit* op = (const codeunit*)  env->GetStringUTFChars(output_path, nullptr);
+    const char* oh = (const char*) env->GetStringUTFChars(output_hash, nullptr);
+    if (sp == NULL || sh == NULL || op == NULL || oh == NULL)
+    {
+      return;
+    }
+    librustzcash_init_zksnark_params(sp, (size_t) env->GetStringLength(spend_path), sh, op,
+    (size_t) env->GetStringLength(output_path), oh);
+    env->ReleaseStringUTFChars(spend_path, (const char*)sp);
+    env->ReleaseStringUTFChars(spend_hash, sh);
+    env->ReleaseStringUTFChars(output_path, (const char* )op);
+    env->ReleaseStringUTFChars(output_hash, oh);
 }
 
 /*
@@ -648,13 +648,13 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 //        unsigned char *result
 //    );
 
-//    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
-//    if (r == NULL)
-//    {
-//      return;
-//    }
-//    librustzcash_tree_uncommitted(r);
-//    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
+    if (r == NULL)
+    {
+      return;
+    }
+    librustzcash_tree_uncommitted(r);
+    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
 }
 
 /*
