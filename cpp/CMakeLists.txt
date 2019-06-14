@@ -4,7 +4,6 @@ project(zksnark-java-sdk)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-set(CMAKE_C_FLAGS "-Wl,--wrap=memcpy")
 set(CMAKE_BUILD_TYPE Release)
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -DNDEBUG -pthread")
 find_package(Java REQUIRED)
@@ -103,6 +102,7 @@ target_link_libraries(zksnarkjni
 
 add_dependencies(zksnarkjni rust)
 add_dependencies(zksnarkjni libsodium)
+SET_TARGET_PROPERTIES( zksnarkjni PROPERTIES LINK_FLAGS "${LINK_FLAGS} -Wl,--wrap=memcpy" )
 
 if(APPLE)
 	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
