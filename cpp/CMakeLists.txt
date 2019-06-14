@@ -104,10 +104,13 @@ target_link_libraries(zksnarkjni
 
 add_dependencies(zksnarkjni rust)
 add_dependencies(zksnarkjni libsodium)
-SET_TARGET_PROPERTIES( zksnarkjni PROPERTIES LINK_FLAGS "${LINK_FLAGS} -Wl,--wrap=memcpy" )
 
-if(APPLE)
-	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
-elseif(UNIX)
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	SET_TARGET_PROPERTIES( zksnarkjni PROPERTIES LINK_FLAGS "${LINK_FLAGS} -Wl,--wrap=memcpy" )
+endif()
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/linux)
+else()
+	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
 endif()
