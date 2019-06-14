@@ -104,7 +104,7 @@ target_link_libraries(zksnarkjni
 
 add_dependencies(zksnarkjni rust)
 add_dependencies(zksnarkjni libsodium)
-SET_TARGET_PROPERTIES( zksnarkjni PROPERTIES LINK_FLAGS "${LINK_FLAGS} -Wl,--wrap=memcpy" )
+SET_TARGET_PROPERTIES( zksnarkjni PROPERTIES LINK_FLAGS "${LINK_FLAGS} -Wl,--wrap=memcpy -static-libgcc -static-libstdc++ -nodefaultlibs -shared -fPIC" )
 
 if(APPLE)
 	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
