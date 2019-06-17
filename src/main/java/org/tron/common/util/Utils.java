@@ -19,8 +19,10 @@ public interface Utils {
       platform = "linux";
       extension = ".so";
     } else if ("macos".equalsIgnoreCase(os) || os.toLowerCase().contains("mac")) {
-      platform = "macos";
-      extension = ".dylib";
+//      platform = "macos";
+//      extension = ".dylib";
+      platform = "linux";
+      extension = ".so";
     } else {
       throw new RuntimeException("unsupportedPlatformException");
     }
