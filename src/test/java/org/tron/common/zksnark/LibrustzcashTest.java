@@ -2,12 +2,14 @@ package org.tron.common.zksnark;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 import java.util.Arrays;
+import java.util.Random;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.tron.common.util.Utils;
 
 public class LibrustzcashTest {
+  private final static String BYTE_32_EMPTY = "0000000000000000000000000000000000000000000000000000000000000000";
 
   @BeforeClass
   public static void librustzcashInitZksnarkParams() {
@@ -19,6 +21,15 @@ public class LibrustzcashTest {
     );
   }
 
+  private byte[] randomByte(int len) {
+    if (len <= 0) {
+      return null;
+    }
+    byte[] bytes = new byte[len];
+    new Random().nextBytes(bytes);
+    return bytes;
+  }
+
   @Test
   public void librustzcashAskToAkTest() {
     byte[] ak = new byte[32];
@@ -26,10 +37,13 @@ public class LibrustzcashTest {
     LibrustzcashWrapper.getInstance().librustzcashAskToAk(ask, ak);
     Assert.assertArrayEquals(HexBin.decode("0830552707e438f1e1da6c89afc6581d3b1b674a53991ba51895bf9a3447c12c"), ak);
 
-    byte[] ak2 = new byte[32];
     ask[0] = 0;
-    LibrustzcashWrapper.getInstance().librustzcashAskToAk(ask, ak2);
-    Assert.assertFalse(Arrays.equals(HexBin.decode("0830552707e438f1e1da6c89afc6581d3b1b674a53991ba51895bf9a3447c12c"), ak2));
+    LibrustzcashWrapper.getInstance().librustzcashAskToAk(ask, ak);
+    Assert.assertFalse(Arrays.equals(HexBin.decode("0830552707e438f1e1da6c89afc6581d3b1b674a53991ba51895bf9a3447c12c"), ak));
+
+    ask = randomByte(32);
+    LibrustzcashWrapper.getInstance().librustzcashAskToAk(ask, ak);
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), ak));
   }
 
   @Test
@@ -48,6 +62,14 @@ public class LibrustzcashTest {
     position = 100L;
     LibrustzcashWrapper.getInstance().librustzcashSaplingComputeNf(d, pkd, value, rcm, ak, nk, position, result);
     Assert.assertFalse(Arrays.equals(HexBin.decode("7f22468cae810da22743f8f66278b690a729c70aa0ee88d6736d43b5ea29ddf1"), result));
+
+    d = randomByte(11);
+    pkd = randomByte(32);
+    rcm = randomByte(32);
+    ak = randomByte(32);
+    nk = randomByte(32);
+    LibrustzcashWrapper.getInstance().librustzcashSaplingComputeNf(d, pkd, value, rcm, ak, nk, position, result);
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), result));
   }
 
   @Test
@@ -57,17 +79,19 @@ public class LibrustzcashTest {
     LibrustzcashWrapper.getInstance().librustzcashNskToNk(nsk, nk);
     Assert.assertArrayEquals(HexBin.decode("92424303a0c7a161ca581dd01b62e1cfa763ddf8b2c6ff15813ba069b3ede89f"), nk);
 
-    byte[] nk2 = new byte[32];
     nsk[0] = 0;
-    LibrustzcashWrapper.getInstance().librustzcashNskToNk(nsk, nk2);
-    Assert.assertFalse(Arrays.equals(HexBin.decode("92424303a0c7a161ca581dd01b62e1cfa763ddf8b2c6ff15813ba069b3ede89f"), nk2));
+    LibrustzcashWrapper.getInstance().librustzcashNskToNk(nsk, nk);
+    Assert.assertFalse(Arrays.equals(HexBin.decode("92424303a0c7a161ca581dd01b62e1cfa763ddf8b2c6ff15813ba069b3ede89f"), nk));
+
+    nsk = randomByte(32);
+    LibrustzcashWrapper.getInstance().librustzcashNskToNk(nsk, nk);
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), nk));
   }
 
   @Test
   public void librustzcashSaplingGenerateRTest() {
     byte[] alpha = new byte[32];
     LibrustzcashWrapper.getInstance().librustzcashSaplingGenerateR(alpha);
-    System.out.println(HexBin.encode(alpha));
     Assert.assertFalse(Arrays.equals(alpha, HexBin.decode("0000000000000000000000000000000000000000000000000000000000000000")));
   }
 
@@ -82,6 +106,11 @@ public class LibrustzcashTest {
     d[0] = 0;
     LibrustzcashWrapper.getInstance().librustzcashSaplingKaDerivepublic(d, esk, epk);
     Assert.assertFalse(Arrays.equals(HexBin.decode("98d49ad63aba6e949e08bfd727a965e4862233c3c1c45de6355618abaa57a555"), epk));
+
+    d = randomByte(11);
+    esk = randomByte(32);
+    LibrustzcashWrapper.getInstance().librustzcashSaplingKaDerivepublic(d, esk, epk);
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), epk));
   }
 
   @Test
@@ -95,6 +124,11 @@ public class LibrustzcashTest {
     nk[0] = 0;
     LibrustzcashWrapper.getInstance().librustzcashCrhIvk(ak, nk, ivk);
     Assert.assertFalse(Arrays.equals(HexBin.decode("f0cfb482b380f196906e82a22bf9afa5ec324d5062c70639adbcd5f35c4f7b07"), ivk));
+
+    nk = randomByte(32);
+    ak = randomByte(32);
+    LibrustzcashWrapper.getInstance().librustzcashCrhIvk(ak, nk, ivk);
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), ivk));
   }
 
   @Test
@@ -108,6 +142,11 @@ public class LibrustzcashTest {
     esk[0] = 0;
     LibrustzcashWrapper.getInstance().librustzcashSaplingKaAgree(pkd, esk, dhsecret);
     Assert.assertFalse(Arrays.equals(HexBin.decode("6d76e9881454e5f3e6991b042442e3e66d61dade7f10b9c5a89ba77bc24e3c6d"), dhsecret));
+
+    esk = randomByte(32);
+    pkd = randomByte(32);
+    LibrustzcashWrapper.getInstance().librustzcashSaplingKaAgree(pkd, esk, dhsecret);
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), dhsecret));
   }
 
   @Test
@@ -131,6 +170,16 @@ public class LibrustzcashTest {
     d[0] = 0;
     Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashIvkToPkd(ivk, d, pkd));
     Assert.assertFalse(Arrays.equals(HexBin.decode("7eb89170c8003264e0d4001ab49dbb10bef32c4dac780f210dd70c0948d22634"), pkd));
+
+    ivk = randomByte(32);
+    d = randomByte(11);
+    Boolean ret = LibrustzcashWrapper.getInstance().librustzcashCheckDiversifier(d);
+    if (ret  ) {
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashIvkToPkd(ivk, d, pkd));
+    } else {
+      Assert.assertFalse(LibrustzcashWrapper.getInstance().librustzcashIvkToPkd(ivk, d, pkd));
+    }
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), pkd));
   }
 
   @Test
@@ -146,6 +195,12 @@ public class LibrustzcashTest {
     value = 100L;
     Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSaplingComputeCm(diversifier, pkd, value, r, cm));
     Assert.assertFalse(Arrays.equals(HexBin.decode("0481f3949ddcd8e3d5e8018893dbad3df2f6fd09b406acdf32a68a3032f37920"), cm));
+
+    diversifier = randomByte(11);
+    pkd = randomByte(32);
+    r = randomByte(32);
+    Assert.assertFalse(LibrustzcashWrapper.getInstance().librustzcashSaplingComputeCm(diversifier, pkd, value, r, cm));
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), cm));
   }
 
   @Test
@@ -168,6 +223,16 @@ public class LibrustzcashTest {
         ctx, ak, nsk, d, rcm, alpha, value, anchor, voucherPath, cv, rk, zkproof));
 
     nsk = HexBin.decode("e65f967ab3a461b3a90aab555ed4c9b89f5c5cf197c7ee94c06f85fde6ef4107");
+    Assert.assertFalse(LibrustzcashWrapper.getInstance().librustzcashSaplingSpendProof(
+        ctx, ak, nsk, d, rcm, alpha, value, anchor, voucherPath, cv, rk, zkproof));
+
+    ak = randomByte(32);
+    nsk = randomByte(32);
+    d = randomByte(11);
+    rcm = randomByte(32);
+    alpha = randomByte(32);
+    anchor = randomByte(32);
+    voucherPath = randomByte(1065);
     Assert.assertFalse(LibrustzcashWrapper.getInstance().librustzcashSaplingSpendProof(
         ctx, ak, nsk, d, rcm, alpha, value, anchor, voucherPath, cv, rk, zkproof));
 
@@ -304,6 +369,7 @@ public class LibrustzcashTest {
     }
     LibrustzcashWrapper.getInstance().librustzcashSaplingProvingCtxFree(ctx);
 
+
     ctx = LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxInit();
     // check spend proof
     {
@@ -347,7 +413,6 @@ public class LibrustzcashTest {
       Assert.assertTrue(ret);
     }
     LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxFree(ctx);
-
   }
 
   @Test
@@ -386,6 +451,26 @@ public class LibrustzcashTest {
             zkproof);
     Assert.assertFalse(ret);
 
+    ak = randomByte(32);
+    nsk = randomByte(32);
+    d = randomByte(11);
+    rcm = randomByte(32);
+    alpha = randomByte(32);
+    anchor = randomByte(32);
+    voucherPath = randomByte(1065);
+    ret = LibrustzcashWrapper.getInstance()
+        .librustzcashSaplingSpendProof(ctx, ak,
+            nsk,
+            d,
+            rcm,
+            alpha,
+            value,
+            anchor,
+            voucherPath,
+            cv,
+            rk,
+            zkproof);
+    Assert.assertFalse(ret);
   }
 
   @Test
@@ -413,6 +498,20 @@ public class LibrustzcashTest {
             cv,
             zkproof);
     Assert.assertFalse(ret);
+
+    esk = randomByte(32);
+    d = randomByte(11);
+    pkD = randomByte(32);
+    rcm = randomByte(32);
+    ret = LibrustzcashWrapper.getInstance()
+        .librustzcashSaplingOutputProof(ctx, esk,
+            d,
+            pkD,
+            rcm,
+            value,
+            cv,
+            zkproof);
+    Assert.assertFalse(ret);
   }
 
 
@@ -426,6 +525,11 @@ public class LibrustzcashTest {
     byte[] res = new byte[32];
     LibrustzcashWrapper.getInstance().librustzcashMerkleHash(4, a, b, res);
     Assert.assertFalse(Arrays.equals(res, new byte[32]));
+
+    a = randomByte(32);
+    b = randomByte(32);
+    LibrustzcashWrapper.getInstance().librustzcashMerkleHash(4, a, b, res);
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), res));
   }
 
   @Test
@@ -444,6 +548,10 @@ public class LibrustzcashTest {
 
     LibrustzcashWrapper.getInstance().librustzcashToScalar(tmp, res);
     Assert.assertFalse(Arrays.equals(res, new byte[32]));
+
+    tmp = randomByte(32);
+    LibrustzcashWrapper.getInstance().librustzcashToScalar(tmp, res);
+    Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), res));
   }
 
   @Test
@@ -459,6 +567,13 @@ public class LibrustzcashTest {
     boolean ret = LibrustzcashWrapper.getInstance()
         .librustzcashSaplingBindingSig(ctx, valueBalance, sighash, result);
     Assert.assertFalse(ret);
+
+    sighash = randomByte(32);
+    ret = LibrustzcashWrapper.getInstance()
+        .librustzcashSaplingBindingSig(ctx, valueBalance, sighash, result);
+    Assert.assertFalse(ret);
+
+    LibrustzcashWrapper.getInstance().librustzcashSaplingProvingCtxFree(ctx);
   }
 
   @Test
@@ -488,6 +603,16 @@ public class LibrustzcashTest {
         .librustzcashSaplingCheckSpend(ctx, cv, Anchor, nf, rk, zkproof, spendAuthSig,
             SighashValue);
     Assert.assertFalse(ret);
+
+    cv = randomByte(32);
+    Anchor = randomByte(32);
+    nf = randomByte(32);
+    ret = LibrustzcashWrapper.getInstance()
+        .librustzcashSaplingCheckSpend(ctx, cv, Anchor, nf, rk, zkproof, spendAuthSig,
+            SighashValue);
+    Assert.assertFalse(ret);
+
+    LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxFree(ctx);
   }
 
 
@@ -505,6 +630,16 @@ public class LibrustzcashTest {
     boolean ret = LibrustzcashWrapper.getInstance()
         .librustzcashSaplingCheckOutput(ctx, cv, cm, EphemeralKey, zkproof);
     Assert.assertFalse(ret);
+
+    cv = randomByte(32);
+    cm = randomByte(32);
+    EphemeralKey = randomByte(32);
+    zkproof = randomByte(192);
+    ret = LibrustzcashWrapper.getInstance()
+        .librustzcashSaplingCheckOutput(ctx, cv, cm, EphemeralKey, zkproof);
+    Assert.assertFalse(ret);
+
+    LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxFree(ctx);
   }
 
   @Test
@@ -520,5 +655,13 @@ public class LibrustzcashTest {
     boolean ret = LibrustzcashWrapper.getInstance()
         .librustzcashSaplingFinalCheck(ctx, valueBalance, bindingSig, sighashValue);
     Assert.assertFalse(ret);
+
+    bindingSig = randomByte(64);
+    sighashValue = randomByte(32);
+    ret = LibrustzcashWrapper.getInstance()
+        .librustzcashSaplingFinalCheck(ctx, valueBalance, bindingSig, sighashValue);
+    Assert.assertFalse(ret);
+
+    LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxFree(ctx);
   }
 }
