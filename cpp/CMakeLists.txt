@@ -4,7 +4,7 @@ project(zksnark-java-sdk)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Debug)
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall -DNDEBUG")
 find_package( Threads )
 find_package(Java REQUIRED)
@@ -63,7 +63,6 @@ ExternalProject_Add(
 		BUILD_COMMAND cargo build
 		#		COMMAND cargo build
 		--package librustzcash
-		--release
 		BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash"
 		INSTALL_COMMAND ""
 		LOG_BUILD OFF)
@@ -98,7 +97,7 @@ ADD_LIBRARY(zksnarkjni
 
 target_link_libraries(zksnarkjni
 		${CMAKE_THREAD_LIBS_INIT}
-		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/debug/librustzcash.a"
 		${NACL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a
 	)
 
