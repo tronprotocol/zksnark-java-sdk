@@ -65,14 +65,15 @@ public class LibrustzcashTest {
     Assert.assertFalse(Arrays.equals(HexBin.decode("7f22468cae810da22743f8f66278b690a729c70aa0ee88d6736d43b5ea29ddf1"), result));
 
     for (long val : LONG_ARRAY) {
+      byte[] result1 = new byte[32];
       d = randomByte(11);
       pkd = randomByte(32);
       rcm = randomByte(32);
       ak = randomByte(32);
       nk = randomByte(32);
       LibrustzcashWrapper.getInstance()
-          .librustzcashSaplingComputeNf(d, pkd, val, rcm, ak, nk, position, result);
-      Assert.assertFalse(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), result));
+          .librustzcashSaplingComputeNf(d, pkd, val, rcm, ak, nk, position, result1);
+      Assert.assertTrue(Arrays.equals(HexBin.decode(BYTE_32_EMPTY), result1));
     }
   }
 
