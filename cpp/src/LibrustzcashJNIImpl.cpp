@@ -671,7 +671,7 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashMsgHash
- * Signature: ([B[I[B)V
+ * Signature: ([BI[B)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashMsgHash
   (JNIEnv *env, jobject, jbyteArray msg, jint n, jbyteArray result) {
@@ -696,7 +696,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashSkToPk
- * Signature: ([B[B)V
+ * Signature: ([B[B)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSkToPk
   (JNIEnv *env, jobject, jbyteArray sk, jbyteArray result) {
@@ -719,7 +719,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashSign
- * Signature: ([B[B[B)V
+ * Signature: ([B[B[B)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSign
   (JNIEnv *env, jobject, jbyteArray msg_hash, jbyteArray sk, jbyteArray result){
@@ -745,7 +745,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashVerify
- * Signature: ([B[B[B)V
+ * Signature: ([B[B[B)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashVerify
   (JNIEnv *env, jobject, jbyteArray signature, jbyteArray msg_hash, jbyteArray pk){
@@ -771,7 +771,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashPkAggregate
- * Signature: ([B[I[B)V
+ * Signature: ([BI[B)Z
  */
  JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashPkAggregate
    (JNIEnv *env, jobject, jbyteArray pks, jint n, jbyteArray result){
@@ -796,7 +796,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashSigAggregate
- * Signature: ([B[B)V
+ * Signature: ([B[B[BI[B)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSigAggregate
    (JNIEnv *env, jobject, jbyteArray msg_hash, jbyteArray sigs, jbyteArray pks, jint n, jbyteArray result){
