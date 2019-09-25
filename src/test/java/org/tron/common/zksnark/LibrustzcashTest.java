@@ -687,4 +687,62 @@ public class LibrustzcashTest {
 
     LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxFree(ctx);
   }
+
+  @Test
+  public void librustzcashVerifyTest(){
+    byte[] sig = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
+    byte[] msgHash = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
+    byte[] pk = HexBin.decode("97f1d3a73197d7942695638c4fa9ac0fc3688c4f9774b905a14e3a3f171bac586c55e83ff97a1aeffb3af00adb22c6bb");
+
+    boolean ret = LibrustzcashWrapper.getInstance()
+            .librustzcashVerify(sig, msgHash, pk);
+    Assert.assertTrue(ret);
+  }
+
+  @Test
+  public void librustzcashPkAggregateTest(){
+    byte[] pks = HexBin.decode(
+            "97f1d3a73197d7942695638c4fa9ac0fc3688c4f9774b905a14e3a3f171bac586c55e83ff97a1aeffb3af00adb22c6bb" +
+                    "a572cbea904d67468808c8eb50a9450c9721db309128012543902d0ac358a62ae28f75bb8f1c7c42c39a8c5529bf0f4e" +
+                    "89ece308f9d1f0131765212deca99697b112d61f9be9a5f1f3780a51335b3ff981747a0b2ca2179b96d2c0c9024e5224" +
+                    "ac9b60d5afcbd5663a8a44b7c5a02f19e9a77ab0a35bd65809bb5c67ec582c897feb04decc694b13e08587f3ff9b5b60" +
+                    "b0e7791fb972fe014159aa33a98622da3cdc98ff707965e536d8636b5fcc5ac7a91a8c46e59a00dca575af0f18fb13dc");
+    byte[] result = new byte[48];
+    int n  = 5;
+
+    boolean ret = LibrustzcashWrapper.getInstance()
+            .librustzcashPkAggregate(pks, n, result);
+    Assert.assertTrue(ret);
+
+    byte[] pkSum = HexBin.decode("8147665b6ad280a75385d458c1213cc80282f55674f9c37aecdd05c522a9d86c071713a4409b1e5eebe5810fad8dd56c");
+    Assert.assertTrue(Arrays.equals(result, pkSum));
+  }
+
+  @Test
+  public void librustzcashSigAggregateTest(){
+    byte[] msgHash = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
+    byte[] sigs = HexBin.decode(
+            "ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f" +
+                    "b7456d2985bf7d54b3d557830b72ea9eb78d77635b6c87c69c45e29d1bb4512a4168f89f78b1bb09a1dc470b87a93cbe0795f84fbc272aa837df3c28945e73861f7eef0d1c40972f16a1fe05986456264b43c20c4472f4e4f9c01e75030e4e50" +
+                    "8c7bcde743d8dd290509c2c21cb73589c830957b5c2adcb28d4fed99adfdc94ad6cbffc3e271503aa319de94773aa83d021295452cb677aea0f605b81cfb52390d7561b851252bfa8a11b7ad3af99c8ce8e9da27a16a896b13ff0b0f5958b06f" +
+                    "a01cfac41909e5517227d8f1909c58115ec9c6bfa38e5506a6906c3af952b80f88a88508dcb463ef43372a105f50a8e50d1ccf37cb8173edefb437d2314e23119ed7bb8334a45e0f0e9e5f9f3ad200ccbf6843ff11b5a5242e4d0dc0382df4ac" +
+                    "a3840199718f68f5a0e7fbc423f5f80e1bd66f2cfafa3d213cdbce7bb02d1bb7e42e1b0a7a0ac4b3ce4e50d52baf9d3c17f3a4306aff6457087f7f2e275beeab700faab86eb2a6d9cff2b73f525f0bac97c314176a15e47c5695af4c1c90dd7b");
+    byte[] pks = HexBin.decode(
+            "97f1d3a73197d7942695638c4fa9ac0fc3688c4f9774b905a14e3a3f171bac586c55e83ff97a1aeffb3af00adb22c6bb" +
+                    "a572cbea904d67468808c8eb50a9450c9721db309128012543902d0ac358a62ae28f75bb8f1c7c42c39a8c5529bf0f4e" +
+                    "89ece308f9d1f0131765212deca99697b112d61f9be9a5f1f3780a51335b3ff981747a0b2ca2179b96d2c0c9024e5224" +
+                    "ac9b60d5afcbd5663a8a44b7c5a02f19e9a77ab0a35bd65809bb5c67ec582c897feb04decc694b13e08587f3ff9b5b60" +
+                    "b0e7791fb972fe014159aa33a98622da3cdc98ff707965e536d8636b5fcc5ac7a91a8c46e59a00dca575af0f18fb13dc");
+
+    byte[] result = new byte[96];
+    int n  = 5;
+
+    boolean ret = LibrustzcashWrapper.getInstance()
+            .librustzcashSigAggregate(msgHash, sigs, pks, n, result);
+    Assert.assertTrue(ret);
+
+    byte[] sigSum = HexBin.decode("8696fd685bd4a47e24cb3978237812c597b70aa4fa083a8a8c8fa56fec11cbcb04f559ce77d15149f3c16bc2f8cc5f9602569e143b9baafc25ad52dca6644a67dcf35e3d991b3f32bf3a1e77424ca777b62c9ea3656a3ef1f27c1ae1869201a9");
+    Assert.assertTrue(Arrays.equals(result, sigSum));
+  }
+
 }
