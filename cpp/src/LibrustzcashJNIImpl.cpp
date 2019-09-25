@@ -667,3 +667,158 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
     env->ReleaseByteArrayElements(result,(jbyte*)r,0);
     env->ReleaseByteArrayElements(input,(jbyte*)i,0);
 }
+
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashMsgHash
+ * Signature: ([B[I[B)V
+ */
+JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashMsgHash
+  (JNIEnv *env, jobject, jbyteArray msg, jint n, jbyteArray result) {
+//    bool librustzcash_msg_hash(
+//        const unsigned char *msg,
+//        size_t n,
+//        unsigned char *result
+//    );
+
+    const unsigned char * i = (const unsigned char *) env->GetByteArrayElements(msg, nullptr);
+    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
+    if (r == NULL || i == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = bool2jboolean(librustzcash_msg_hash(i, (size_t) n, r));
+    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+    env->ReleaseByteArrayElements(msg,(jbyte*)i,0);
+    return jb;
+}
+
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashSkToPk
+ * Signature: ([B[B)V
+ */
+JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSkToPk
+  (JNIEnv *env, jobject, jbyteArray sk, jbyteArray result) {
+//    bool librustzcash_sk_to_pk(
+//        const unsigned char *sk,
+//        unsigned char *result
+//    );
+    const unsigned char * a = (const unsigned char *) env->GetByteArrayElements(sk, nullptr);
+    unsigned char * r = (unsigned char *) env-> GetByteArrayElements(result, nullptr);
+    if (a == NULL || r == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = librustzcash_sk_to_pk(a,r);
+    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+    env->ReleaseByteArrayElements(sk,(jbyte*)a, 0);
+    return jb;
+}
+
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashSign
+ * Signature: ([B[B[B)V
+ */
+JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSign
+  (JNIEnv *env, jobject, jbyteArray msg_hash, jbyteArray sk, jbyteArray result){
+//    bool librustzcash_sign(
+//        const unsigned char *msg_hash,
+//        const unsigned char *sk,
+//        unsigned char *result
+//    );
+    const unsigned char * a = (const unsigned char *) env->GetByteArrayElements(msg_hash, nullptr);
+    const unsigned char * b = (const unsigned char *) env->GetByteArrayElements(sk, nullptr);
+    unsigned char * r = (unsigned char *) env-> GetByteArrayElements(result, nullptr);
+    if (a == NULL || b == NULL || r == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = librustzcash_sign(a,b,r);
+    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+    env->ReleaseByteArrayElements(msg_hash,(jbyte*)a,0);
+    env->ReleaseByteArrayElements(sk,(jbyte*)b, 0);
+    return jb;
+}
+
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashVerify
+ * Signature: ([B[B[B)V
+ */
+JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashVerify
+  (JNIEnv *env, jobject, jbyteArray signature, jbyteArray msg_hash, jbyteArray pk){
+//    bool librustzcash_verify(
+//        const unsigned char *signature,
+//        const unsigned char *msg_hash,
+//        const unsigned char *pk
+//    );
+    const unsigned char * a = (const unsigned char *) env->GetByteArrayElements(signature, nullptr);
+    const unsigned char * b = (const unsigned char *) env->GetByteArrayElements(msg_hash, nullptr);
+    const unsigned char * c = (const unsigned char *) env->GetByteArrayElements(pk, nullptr);
+    if (a == NULL || b == NULL || c == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = librustzcash_verify(a,b,c);
+    env->ReleaseByteArrayElements(signature,(jbyte*)a,0);
+    env->ReleaseByteArrayElements(msg_hash,(jbyte*)b, 0);
+    env->ReleaseByteArrayElements(pk,(jbyte*)c, 0);
+    return jb;
+}
+
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashPkAggregate
+ * Signature: ([B[I[B)V
+ */
+ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashPkAggregate
+   (JNIEnv *env, jobject, jbyteArray pks, jint n, jbyteArray result){
+//    bool librustzcash_pk_aggregate(
+//          const unsigned char *pks,
+//          uint32_t n,
+//          unsigned char *result
+//      );
+
+    const unsigned char * i = (const unsigned char *) env->GetByteArrayElements(pks, nullptr);
+    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
+    if (r == NULL || i == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = bool2jboolean(librustzcash_pk_aggregate(i, (uint32_t) n, r));
+    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+    env->ReleaseByteArrayElements(pks,(jbyte*)i,0);
+    return jb;
+}
+
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashSigAggregate
+ * Signature: ([B[B)V
+ */
+JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSigAggregate
+   (JNIEnv *env, jobject, jbyteArray msg_hash, jbyteArray sigs, jbyteArray pks, jint n, jbyteArray result){
+//    bool librustzcash_sig_aggregate(
+//        const unsigned char *msg_hash,
+//        const unsigned char *sigs,
+//        const unsigned char *pks,
+//        uint32_t n,
+//        unsigned char *result
+//    );
+    const unsigned char * a = (const unsigned char *) env->GetByteArrayElements(msg_hash, nullptr);
+    const unsigned char * b = (const unsigned char *) env->GetByteArrayElements(sigs, nullptr);
+    const unsigned char * c = (const unsigned char *) env->GetByteArrayElements(pks, nullptr);
+    unsigned char * r = (unsigned char *) env->GetByteArrayElements(result, nullptr);
+    if (r == NULL || a == NULL || b == NULL || c == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = bool2jboolean(librustzcash_sig_aggregate(a, b, c, (uint32_t) n, r));
+    env->ReleaseByteArrayElements(result,(jbyte*)r,0);
+    env->ReleaseByteArrayElements(msg_hash,(jbyte*)a,0);
+    env->ReleaseByteArrayElements(sigs,(jbyte*)b,0);
+    env->ReleaseByteArrayElements(pks,(jbyte*)c,0);
+    return jb;
+}
