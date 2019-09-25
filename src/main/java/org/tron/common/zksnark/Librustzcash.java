@@ -129,6 +129,33 @@ class Librustzcash {
     INSTANCE.librustzcashToScalar(input, result);
   }
 
+  public boolean librustzcashMsgHash(byte[] msg, int n, byte[] result){
+    return INSTANCE.librustzcashMsgHash(msg, n, result);
+  }
+
+  public boolean librustzcashSkToPk(byte[] sk, byte[] result){
+    return INSTANCE.librustzcashSkToPk(sk, result);
+  }
+
+  public boolean librustzcashSign(byte[] msg_hash, byte[] sk, byte[] result){
+    return INSTANCE.librustzcashSign(msg_hash, sk, result);
+  }
+
+  public boolean librustzcashVerify(byte[] signature, byte[] msg_hash, byte[] pk){
+    return INSTANCE.librustzcashVerify(signature, msg_hash, pk);
+  }
+
+  public boolean librustzcashPkAggregate(byte[] pks, int n, byte[] result){
+    return INSTANCE.librustzcashPkAggregate(pks, n, result);
+  }
+
+  public boolean librustzcashSigAggregate(byte[] msg_hash, byte[] sigs, byte[] pks, int n, byte[] result){
+    return INSTANCE.librustzcashSigAggregate(msg_hash, sigs, pks, n, result);
+  }
+
+
+
+
   private static class LibrustzcashJNI {
 
 //    static {
@@ -218,6 +245,18 @@ class Librustzcash {
     private native void librustzcashTreeUncommitted(byte[] result);
 
     private native void librustzcashToScalar(byte[] input, byte[] result);
+
+    private native boolean librustzcashMsgHash(byte[] msg, int n, byte[] result);
+
+    private native boolean librustzcashSkToPk(byte[] sk, byte[] result);
+
+    private native boolean librustzcashSign(byte[] msg_hash, byte[] sk, byte[] result);
+
+    private native boolean librustzcashVerify(byte[] signature, byte[] msg_hash, byte[] pk);
+
+    private native boolean librustzcashPkAggregate(byte[] pks, int n, byte[] result);
+
+    private native boolean librustzcashSigAggregate(byte[] msg_hash, byte[] sigs, byte[] pks, int n, byte[] result);
 
   }
 }
