@@ -770,12 +770,10 @@ public class LibrustzcashTest {
 
     int Num = 1000;
     sk = randomByte(32);
-    msgHash = randomByte(96);
     long start = System.currentTimeMillis();
     for (int i = 0; i < Num; i++) {
       LibrustzcashWrapper.getInstance().librustzcashSign(msgHash,sk,result);
       sk = randomByte(32);
-      msgHash = randomByte(96);
     }
     long time = (System.currentTimeMillis() - start)/Num;
     System.out.println("The average time of "+ Num + " times  Sign test is: " + time + " milliseconds");
