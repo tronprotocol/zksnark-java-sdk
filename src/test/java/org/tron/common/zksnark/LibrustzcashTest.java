@@ -689,6 +689,102 @@ public class LibrustzcashTest {
   }
 
   @Test
+  public void librustzcashMsgHashTest()
+  {
+    byte[] msg1 = HexBin.decode("0000000000000000000000000000000000000000000000000000000000000000");
+    byte[] hash1 = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
+    byte[] msg2 = HexBin.decode("0100000000000000000000000000000000000000000000000000000000000000");
+    byte[] hash2 = HexBin.decode("915d24454541cc903d4e560b19d9f03dc9c3971091e4b4d0ee318ee534ab8faf28c80851129be88c264254edea52b9d516ed420202e6e1c300366dad9e761b3da00996371770cd84ff2243c6275bb09f5c55a940070cf35a5386fe819f1880da");
+    int n = 32;
+    byte[] result1 = new byte[96];
+    byte[] result2 = new byte[96];
+    boolean ret1 = LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg1,n,result1);
+    Assert.assertTrue(ret1);
+    Assert.assertTrue(Arrays.equals(result1,hash1));
+    boolean ret2 = LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg2,n,result2);
+    Assert.assertTrue(ret2);
+    Assert.assertTrue(Arrays.equals(result2,hash2));
+
+
+    byte [] msg = randomByte(32);
+    int Num = 1000;
+    long start = System.currentTimeMillis();
+    for (int i=0; i < Num; i++) {
+      LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg,n,result2);
+      msg = randomByte(32);
+    }
+
+    long time = (System.currentTimeMillis() - start)/Num;
+
+    System.out.println("The average time of "+ Num + " times Hash test is: " + time + " milliseconds" );
+
+
+  }
+
+  @Test
+  public void librustzcashSkToPkTest1(){
+    byte[] sk = HexBin.decode("0100000000000000000000000000000000000000000000000000000000000000");
+    byte[] pk = new byte[48];
+    byte[] pkHex = HexBin.decode("97f1d3a73197d7942695638c4fa9ac0fc3688c4f9774b905a14e3a3f171bac586c55e83ff97a1aeffb3af00adb22c6bb");
+    boolean ret = LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk,pk);
+    Assert.assertTrue(ret);
+    Assert.assertTrue(Arrays.equals(pk, pkHex));
+
+    byte[] sk1 = HexBin.decode("0102030405000000000000000000000000000000000000000000000000070809");
+    byte[] pk1 = new byte[48];
+    byte[] pkHex1 = HexBin.decode("b9d4cbeaf0f12a1d9c8867eb0e91d806e0057201e487967b2c3979a099a98ed6b8837b97a628a6c2bfbf8bac90f9d298");
+    boolean ret1 = LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk1,pk1);
+    Assert.assertTrue(ret1);
+    Assert.assertTrue(Arrays.equals(pk1, pkHex1));
+
+    long start = System.currentTimeMillis();
+    int Num = 1000;
+    sk = randomByte(32);
+    for (int i = 0; i < Num; i++) {
+      LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk,pk);
+      sk = randomByte(32);
+    }
+    long time = (System.currentTimeMillis() - start)/Num;
+    System.out.println("The average time of "+ Num + " times  Sk2Pk generation test is: " + time + " milliseconds");
+
+  }
+
+
+  @Test
+  public void librustzcashSignTest(){
+    byte[] msgHash = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
+    byte[] sk = HexBin.decode("0100000000000000000000000000000000000000000000000000000000000000");
+    byte[] msgSign = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
+    byte[] result = new byte[96];
+    boolean ret = LibrustzcashWrapper.getInstance().librustzcashSign(msgHash,sk, result);
+    Assert.assertTrue(ret);
+    Assert.assertTrue(Arrays.equals(msgSign,result));
+
+    byte[] sk1 = HexBin.decode("0102030405000000000000000000000000000000000000000000000000070809");
+    byte[] msgSign1 = HexBin.decode("b6bd7827cf62a4f85ebf6aa864f391b4ebb3c4f633fa769533e39005547f6a108962a09eb1d2f44ed0a86e5a28b5dc7407413d23bb75e6504693906d149118adbca65a211528e7f457df7c8b53fe1cf7c647ad227160e7e5bfaa6b4cd0637c9b");
+    byte[] result1 = new byte[96];
+    boolean ret1 = LibrustzcashWrapper.getInstance().librustzcashSign(msgHash ,sk1, result1);
+    Assert.assertTrue(ret1);
+    Assert.assertTrue(Arrays.equals(msgSign1,result1));
+
+
+    int Num = 1000;
+    sk = randomByte(32);
+    msgHash = randomByte(96);
+    long start = System.currentTimeMillis();
+    for (int i = 0; i < Num; i++) {
+      LibrustzcashWrapper.getInstance().librustzcashSign(msgHash,sk,result);
+      sk = randomByte(32);
+      msgHash = randomByte(96);
+    }
+    long time = (System.currentTimeMillis() - start)/Num;
+    System.out.println("The average time of "+ Num + " times  Sign test is: " + time + " milliseconds");
+
+  }
+
+
+
+  @Test
   public void librustzcashVerifyTest() {
     byte[] sig = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
     byte[] msgHash = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
