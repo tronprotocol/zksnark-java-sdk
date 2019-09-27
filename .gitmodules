@@ -1,5 +1,5 @@
 [submodule "rust/librustzcash"]
 	path = rust/librustzcash
 	url = https://github.com/tronprotocol/librustzcash.git
-	branch = zks_dev_new_bls
+	branch = feature/zks_dev_new_bls
 	ignore=dirty
