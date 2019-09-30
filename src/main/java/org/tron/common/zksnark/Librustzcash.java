@@ -129,7 +129,7 @@ class Librustzcash {
     INSTANCE.librustzcashToScalar(input, result);
   }
 
-  public boolean librustzcashMsgHash(byte[] msg, int n, byte[] result){
+  public boolean librustzcashMsgHash(byte[] msg, long n, byte[] result){
     return INSTANCE.librustzcashMsgHash(msg, n, result);
   }
 
@@ -145,11 +145,11 @@ class Librustzcash {
     return INSTANCE.librustzcashVerify(signature, msg_hash, pk);
   }
 
-  public boolean librustzcashPkAggregate(byte[] pks, int n, byte[] result){
+  public boolean librustzcashPkAggregate(byte[] pks, long n, byte[] result){
     return INSTANCE.librustzcashPkAggregate(pks, n, result);
   }
 
-  public boolean librustzcashSigAggregate(byte[] msg_hash, byte[] sigs, byte[] pks, int n, byte[] result){
+  public boolean librustzcashSigAggregate(byte[] msg_hash, byte[] sigs, byte[] pks, long n, byte[] result){
     return INSTANCE.librustzcashSigAggregate(msg_hash, sigs, pks, n, result);
   }
 
@@ -246,7 +246,7 @@ class Librustzcash {
 
     private native void librustzcashToScalar(byte[] input, byte[] result);
 
-    private native boolean librustzcashMsgHash(byte[] msg, int n, byte[] result);
+    private native boolean librustzcashMsgHash(byte[] msg, long n, byte[] result);
 
     private native boolean librustzcashSkToPk(byte[] sk, byte[] result);
 
@@ -254,9 +254,9 @@ class Librustzcash {
 
     private native boolean librustzcashVerify(byte[] signature, byte[] msg_hash, byte[] pk);
 
-    private native boolean librustzcashPkAggregate(byte[] pks, int n, byte[] result);
+    private native boolean librustzcashPkAggregate(byte[] pks, long n, byte[] result);
 
-    private native boolean librustzcashSigAggregate(byte[] msg_hash, byte[] sigs, byte[] pks, int n, byte[] result);
+    private native boolean librustzcashSigAggregate(byte[] msg_hash, byte[] sigs, byte[] pks, long n, byte[] result);
 
   }
 }

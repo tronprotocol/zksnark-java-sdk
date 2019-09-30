@@ -671,13 +671,13 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librustzca
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashMsgHash
- * Signature: ([BI[B)Z
+ * Signature: ([BJ[B)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashMsgHash
-  (JNIEnv *env, jobject, jbyteArray msg, jint n, jbyteArray result) {
+  (JNIEnv *env, jobject, jbyteArray msg, jlong n, jbyteArray result) {
 //    bool librustzcash_msg_hash(
 //        const unsigned char *msg,
-//        size_t n,
+//        int64_t n,
 //        unsigned char *result
 //    );
 
@@ -687,7 +687,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     {
       return JNI_FALSE;
     }
-    jboolean jb = bool2jboolean(librustzcash_msg_hash(i, (size_t) n, r));
+    jboolean jb = bool2jboolean(librustzcash_msg_hash(i, (int64_t) n, r));
     env->ReleaseByteArrayElements(result,(jbyte*)r,0);
     env->ReleaseByteArrayElements(msg,(jbyte*)i,0);
     return jb;
@@ -771,13 +771,13 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashPkAggregate
- * Signature: ([BI[B)Z
+ * Signature: ([BJ[B)Z
  */
  JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashPkAggregate
-   (JNIEnv *env, jobject, jbyteArray pks, jint n, jbyteArray result){
+   (JNIEnv *env, jobject, jbyteArray pks, jlong n, jbyteArray result){
 //    bool librustzcash_pk_aggregate(
 //          const unsigned char *pks,
-//          uint32_t n,
+//          int64_t n,
 //          unsigned char *result
 //      );
 
@@ -787,7 +787,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     {
       return JNI_FALSE;
     }
-    jboolean jb = bool2jboolean(librustzcash_pk_aggregate(i, (uint32_t) n, r));
+    jboolean jb = bool2jboolean(librustzcash_pk_aggregate(i, (int64_t) n, r));
     env->ReleaseByteArrayElements(result,(jbyte*)r,0);
     env->ReleaseByteArrayElements(pks,(jbyte*)i,0);
     return jb;
@@ -796,15 +796,15 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashSigAggregate
- * Signature: ([B[B[BI[B)Z
+ * Signature: ([B[B[BJ[B)Z
  */
 JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSigAggregate
-   (JNIEnv *env, jobject, jbyteArray msg_hash, jbyteArray sigs, jbyteArray pks, jint n, jbyteArray result){
+   (JNIEnv *env, jobject, jbyteArray msg_hash, jbyteArray sigs, jbyteArray pks, jlong n, jbyteArray result){
 //    bool librustzcash_sig_aggregate(
 //        const unsigned char *msg_hash,
 //        const unsigned char *sigs,
 //        const unsigned char *pks,
-//        uint32_t n,
+//        int64_t n,
 //        unsigned char *result
 //    );
     const unsigned char * a = (const unsigned char *) env->GetByteArrayElements(msg_hash, nullptr);
@@ -815,7 +815,7 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     {
       return JNI_FALSE;
     }
-    jboolean jb = bool2jboolean(librustzcash_sig_aggregate(a, b, c, (uint32_t) n, r));
+    jboolean jb = bool2jboolean(librustzcash_sig_aggregate(a, b, c, (int64_t) n, r));
     env->ReleaseByteArrayElements(result,(jbyte*)r,0);
     env->ReleaseByteArrayElements(msg_hash,(jbyte*)a,0);
     env->ReleaseByteArrayElements(sigs,(jbyte*)b,0);

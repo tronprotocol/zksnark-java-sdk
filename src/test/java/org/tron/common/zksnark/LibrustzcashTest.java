@@ -698,19 +698,19 @@ public class LibrustzcashTest {
     int n = 32;
     byte[] result1 = new byte[96];
     byte[] result2 = new byte[96];
-    boolean ret1 = LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg1,n,result1);
+    boolean ret1 = LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg1, n, result1);
     Assert.assertTrue(ret1);
     Assert.assertTrue(Arrays.equals(result1,hash1));
-    boolean ret2 = LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg2,n,result2);
+    boolean ret2 = LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg2, n, result2);
     Assert.assertTrue(ret2);
-    Assert.assertTrue(Arrays.equals(result2,hash2));
+    Assert.assertTrue(Arrays.equals(result2, hash2));
 
 
     byte [] msg = randomByte(32);
     int Num = 1000;
     long start = System.currentTimeMillis();
     for (int i=0; i < Num; i++) {
-      LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg,n,result2);
+      LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg, n, result2);
       msg = randomByte(32);
     }
 
@@ -726,14 +726,14 @@ public class LibrustzcashTest {
     byte[] sk = HexBin.decode("0100000000000000000000000000000000000000000000000000000000000000");
     byte[] pk = new byte[48];
     byte[] pkHex = HexBin.decode("97f1d3a73197d7942695638c4fa9ac0fc3688c4f9774b905a14e3a3f171bac586c55e83ff97a1aeffb3af00adb22c6bb");
-    boolean ret = LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk,pk);
+    boolean ret = LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk);
     Assert.assertTrue(ret);
     Assert.assertTrue(Arrays.equals(pk, pkHex));
 
     byte[] sk1 = HexBin.decode("0102030405000000000000000000000000000000000000000000000000070809");
     byte[] pk1 = new byte[48];
     byte[] pkHex1 = HexBin.decode("b9d4cbeaf0f12a1d9c8867eb0e91d806e0057201e487967b2c3979a099a98ed6b8837b97a628a6c2bfbf8bac90f9d298");
-    boolean ret1 = LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk1,pk1);
+    boolean ret1 = LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk1, pk1);
     Assert.assertTrue(ret1);
     Assert.assertTrue(Arrays.equals(pk1, pkHex1));
 
@@ -741,7 +741,7 @@ public class LibrustzcashTest {
     int Num = 1000;
     sk = randomByte(32);
     for (int i = 0; i < Num; i++) {
-      LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk,pk);
+      LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk);
       sk = randomByte(32);
     }
     long time = (System.currentTimeMillis() - start)/Num;
@@ -756,23 +756,23 @@ public class LibrustzcashTest {
     byte[] sk = HexBin.decode("0100000000000000000000000000000000000000000000000000000000000000");
     byte[] msgSign = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
     byte[] result = new byte[96];
-    boolean ret = LibrustzcashWrapper.getInstance().librustzcashSign(msgHash,sk, result);
+    boolean ret = LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, result);
     Assert.assertTrue(ret);
-    Assert.assertTrue(Arrays.equals(msgSign,result));
+    Assert.assertTrue(Arrays.equals(msgSign, result));
 
     byte[] sk1 = HexBin.decode("0102030405000000000000000000000000000000000000000000000000070809");
     byte[] msgSign1 = HexBin.decode("b6bd7827cf62a4f85ebf6aa864f391b4ebb3c4f633fa769533e39005547f6a108962a09eb1d2f44ed0a86e5a28b5dc7407413d23bb75e6504693906d149118adbca65a211528e7f457df7c8b53fe1cf7c647ad227160e7e5bfaa6b4cd0637c9b");
     byte[] result1 = new byte[96];
     boolean ret1 = LibrustzcashWrapper.getInstance().librustzcashSign(msgHash ,sk1, result1);
     Assert.assertTrue(ret1);
-    Assert.assertTrue(Arrays.equals(msgSign1,result1));
+    Assert.assertTrue(Arrays.equals(msgSign1, result1));
 
 
     int Num = 1000;
     sk = randomByte(32);
     long start = System.currentTimeMillis();
     for (int i = 0; i < Num; i++) {
-      LibrustzcashWrapper.getInstance().librustzcashSign(msgHash,sk,result);
+      LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, result);
       sk = randomByte(32);
     }
     long time = (System.currentTimeMillis() - start)/Num;
@@ -780,48 +780,31 @@ public class LibrustzcashTest {
 
   }
 
-
-
   @Test
   public void librustzcashVerifyTest() {
     byte[] sig = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
     byte[] msgHash = HexBin.decode("ab6c02bfb7c07548738089d90a98ff7ce449ae77af9f2e02979d43ff44ca0ff17fab9012164e011bbd9ecef913addbb600fd77a39ad014b5e9f4db02cb9e06a73588c8af2f006445c250307e7f90fdfb83bd6c5fea4a2ba20329dc1226a1e86f");
     byte[] pk = HexBin.decode("97f1d3a73197d7942695638c4fa9ac0fc3688c4f9774b905a14e3a3f171bac586c55e83ff97a1aeffb3af00adb22c6bb");
-
-    Assert.assertTrue(
-            LibrustzcashWrapper.getInstance().librustzcashVerify(sig, msgHash, pk)
-    );
-
+    Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashVerify(sig, msgHash, pk));
     double totalTime = 0;
-    byte[] sk = new byte[32];
+    //byte[] sk = new byte[32];
     for(int i = 0; i < 1000; i++){
-      sk = randomByte(32);
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk)
-      );
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, sig)
-      );
-
+      byte sk[] = randomByte(32);
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk));
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, sig));
       long startTime = System.currentTimeMillis();
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashVerify(sig, msgHash, pk)
-      );
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashVerify(sig, msgHash, pk));
       long endTime = System.currentTimeMillis();
       totalTime += endTime - startTime;
     }
     totalTime /= 1000;
     System.out.printf("%f ms per instance\n", totalTime);
-
     //TestWrong
     for(int i = 0; i < 10000; i++){
       sig = randomByte(96);
       msgHash = randomByte(96);
       pk = randomByte(48);
-
-      Assert.assertFalse(
-              LibrustzcashWrapper.getInstance().librustzcashVerify(sig, msgHash, pk)
-      );
+      Assert.assertFalse(LibrustzcashWrapper.getInstance().librustzcashVerify(sig, msgHash, pk));
     }
   }
 
@@ -835,44 +818,30 @@ public class LibrustzcashTest {
                     "b0e7791fb972fe014159aa33a98622da3cdc98ff707965e536d8636b5fcc5ac7a91a8c46e59a00dca575af0f18fb13dc");
     byte[] result = new byte[48];
     int n = 5;
-
-    Assert.assertTrue(
-            LibrustzcashWrapper.getInstance().librustzcashPkAggregate(pks, n, result)
-    );
-
+    Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashPkAggregate(pks, n, result));
     byte[] pkSum = HexBin.decode("8147665b6ad280a75385d458c1213cc80282f55674f9c37aecdd05c522a9d86c071713a4409b1e5eebe5810fad8dd56c");
     Assert.assertTrue(Arrays.equals(result, pkSum));
-
-    n = 23;
+    n = 27;
     double totalTime = 0;
     byte[] sk = new byte[32];
     byte[] pkss = new byte[48*n];
     for(int i = 0; i < 1000; i++){
       for(int j = 0; j < n; j++ ){
         sk = randomByte(32);
-        Assert.assertTrue(
-                LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, result)
-        );
+        Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, result));
         System.arraycopy(result,0,pkss, j*48, 48);
       }
-
       long startTime = System.currentTimeMillis();
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashPkAggregate(pkss, n, result)
-      );
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashPkAggregate(pkss, n, result));
       long endTime = System.currentTimeMillis();
       totalTime += endTime - startTime;
     }
     totalTime /= 1000;
     System.out.printf("%f ms per instance\n", totalTime);
-
     //TestWrong
     for(int i = 0; i < 10000; i++){
       pks = randomByte(48*n);
-
-      Assert.assertFalse(
-              LibrustzcashWrapper.getInstance().librustzcashPkAggregate(pks, n, result)
-      );
+      Assert.assertFalse(LibrustzcashWrapper.getInstance().librustzcashPkAggregate(pks, n, result));
     }
   }
 
@@ -891,18 +860,12 @@ public class LibrustzcashTest {
                     "89ece308f9d1f0131765212deca99697b112d61f9be9a5f1f3780a51335b3ff981747a0b2ca2179b96d2c0c9024e5224" +
                     "ac9b60d5afcbd5663a8a44b7c5a02f19e9a77ab0a35bd65809bb5c67ec582c897feb04decc694b13e08587f3ff9b5b60" +
                     "b0e7791fb972fe014159aa33a98622da3cdc98ff707965e536d8636b5fcc5ac7a91a8c46e59a00dca575af0f18fb13dc");
-
     byte[] result = new byte[96];
     int n = 5;
-
-    Assert.assertTrue(
-            LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigs, pks, n, result)
-    );
-
+    Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigs, pks, n, result));
     byte[] sigSum = HexBin.decode("8696fd685bd4a47e24cb3978237812c597b70aa4fa083a8a8c8fa56fec11cbcb04f559ce77d15149f3c16bc2f8cc5f9602569e143b9baafc25ad52dca6644a67dcf35e3d991b3f32bf3a1e77424ca777b62c9ea3656a3ef1f27c1ae1869201a9");
     Assert.assertTrue(Arrays.equals(result, sigSum));
-
-    n = 23;
+    n = 27;
     double totalTime = 0;
     byte[] sk = new byte[32];
     byte[] pk = new byte[48];
@@ -911,35 +874,24 @@ public class LibrustzcashTest {
     for(int i = 0; i < 1000; i++){
       for(int j = 0; j < n; j++ ){
         sk = randomByte(32);
-        Assert.assertTrue(
-                LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk)
-        );
+        Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk));
         System.arraycopy(pk,0,pkss, j*48, 48);
-        Assert.assertTrue(
-                LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, result)
-        );
+        Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, result));
         System.arraycopy(result,0,sigss, j*96, 96);
       }
-
       long startTime = System.currentTimeMillis();
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigss, pkss, n, result)
-      );
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigss, pkss, n, result));
       long endTime = System.currentTimeMillis();
       totalTime += endTime - startTime;
     }
     totalTime /= 1000;
     System.out.printf("%f ms per instance\n", totalTime);
-
     //TestWrong
     for(int i = 0; i < 10000; i++){
       msgHash = randomByte(96);
       sigss = randomByte(96*n);
       pkss = randomByte(48*n);
-
-      Assert.assertFalse(
-              LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigss, pkss, n, result)
-      );
+      Assert.assertFalse(LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigss, pkss, n, result));
     }
   }
 
@@ -953,33 +905,22 @@ public class LibrustzcashTest {
     byte[] sigSum = new byte[96];
     byte[] pks = new byte[48*n];
     byte[] sigs = new byte[96*n];
-
     double totalTime = 0;
-    Assert.assertTrue(
-            LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg, 32, msgHash)
-    );
+    Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg, 32, msgHash));
     for(int i = 0; i < 1000; i++){
       for(int j = 0; j < n; j++ ){
         sk = randomByte(32);
-        Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk)
-        );
+        Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk));
         System.arraycopy(pk,0,pks, j*48, 48);
-        Assert.assertTrue(
-                LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, sigSum)
-        );
+        Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, sigSum));
         System.arraycopy(sigSum,0,sigs, j*96, 96);
       }
-
       //time start
       long startTime = System.currentTimeMillis();
       //verify last signature
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashVerify(sigSum, msgHash, pk)
-      );
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashVerify(sigSum, msgHash, pk));
       //aggregate signatures
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigs, pks, n, sigSum)
-      );
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigs, pks, n, sigSum));
       long endTime = System.currentTimeMillis();
       totalTime += endTime - startTime;
     }
@@ -998,39 +939,23 @@ public class LibrustzcashTest {
     byte[] sigSum = new byte[96];
     byte[] pks = new byte[48*n];
     byte[] sigs = new byte[96*n];
-
     double totalTime = 0;
-    Assert.assertTrue(
-            LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg, 32, msgHash)
-    );
+    Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg, 32, msgHash));
     for(int i = 0; i < 1000; i++){
       for(int j = 0; j < n; j++ ){
         sk = randomByte(32);
-        Assert.assertTrue(
-                LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk)
-        );
+        Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSkToPk(sk, pk));
         System.arraycopy(pk,0,pks, j*48, 48);
-        Assert.assertTrue(
-                LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, sigSum)
-        );
+        Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSign(msgHash, sk, sigSum));
         System.arraycopy(sigSum,0,sigs, j*96, 96);
       }
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigs, pks, n, sigSum)
-      );
-
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashSigAggregate(msgHash, sigs, pks, n, sigSum));
       //time start
       long startTime = System.currentTimeMillis();
       //verify aggregated signature
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashPkAggregate(pks, n, pkSum)
-      );
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg, 32, msgHash)
-      );
-      Assert.assertTrue(
-              LibrustzcashWrapper.getInstance().librustzcashVerify(sigSum, msgHash, pkSum)
-      );
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashPkAggregate(pks, n, pkSum));
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashMsgHash(msg, 32, msgHash));
+      Assert.assertTrue(LibrustzcashWrapper.getInstance().librustzcashVerify(sigSum, msgHash, pkSum));
       long endTime = System.currentTimeMillis();
       totalTime += endTime - startTime;
     }
