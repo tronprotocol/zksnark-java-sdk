@@ -591,6 +591,42 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     return jb;
 }
 
+
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashSaplingFinalCheckNew
+ * Signature: (J[B[B[B[B[B)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSaplingFinalCheckNew
+  (JNIEnv * env, jobject, jlong valueBalance, jbyteArray bindingSig, jbyteArray sighashValue, jbyteArray spendCv, jbyteArray outputCv1, jbyteArray outputCv2) {
+//    bool librustzcash_sapling_final_check_new(
+//        int64_t valueBalance,
+//        const unsigned char *bindingSig,
+//        const unsigned char *sighashValue,
+//        const unsigned char *spendCv,
+//        const unsigned char *outputCv1,
+//        const unsigned char *outputCv2
+
+//    );
+    const unsigned char * b = (const unsigned char *) env->GetByteArrayElements(bindingSig, nullptr);
+    const unsigned char * s = (const unsigned char *) env->GetByteArrayElements(sighashValue, nullptr);
+    const unsigned char * scv = (const unsigned char *) env->GetByteArrayElements(spendCv, nullptr);
+    const unsigned char * cv1 = (const unsigned char *) env->GetByteArrayElements(outputCv1, nullptr);
+    const unsigned char * cv2 = (const unsigned char *) env->GetByteArrayElements(outputCv2, nullptr);
+    if (b == NULL || s == NULL || scv == NULL || cv1 == NULL || cv2 == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = bool2jboolean(librustzcash_sapling_final_check_new((int64_t) valueBalance,b,s,scv,cv1,cv2));
+    env->ReleaseByteArrayElements(bindingSig,(jbyte*)b,0);
+    env->ReleaseByteArrayElements(sighashValue,(jbyte*)s,0);
+    env->ReleaseByteArrayElements(spendCv,(jbyte*)scv,0);
+    env->ReleaseByteArrayElements(outputCv1,(jbyte*)cv1,0);
+    env->ReleaseByteArrayElements(outputCv2,(jbyte*)cv2,0);
+    return jb;
+}
+
+
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashSaplingVerificationCtxFree

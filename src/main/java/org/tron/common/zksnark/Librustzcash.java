@@ -129,6 +129,11 @@ class Librustzcash {
     INSTANCE.librustzcashToScalar(input, result);
   }
 
+  public boolean librustzcashSaplingFinalCheckNew(long valueBalance, byte[] bindingSig, byte[] sighashValue,
+                                                  byte[] spendCv, byte[] outputCv1, byte[] outputCv2) {
+    return INSTANCE.librustzcashSaplingFinalCheckNew(valueBalance, bindingSig, sighashValue, spendCv, outputCv1, outputCv2);
+  }
+
   private static class LibrustzcashJNI {
 
 //    static {
@@ -218,6 +223,9 @@ class Librustzcash {
     private native void librustzcashTreeUncommitted(byte[] result);
 
     private native void librustzcashToScalar(byte[] input, byte[] result);
+
+    private native boolean librustzcashSaplingFinalCheckNew(long valueBalance, byte[] bindingSig, byte[] sighashValue,
+                                                            byte[] spendCv, byte[] outputCv1, byte[] outputCv2);
 
   }
 }
