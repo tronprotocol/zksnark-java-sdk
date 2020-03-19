@@ -694,15 +694,14 @@ public class LibrustzcashTest {
   {
     long valueBalance = 0L;
     byte[] bindingSig = HexBin.decode(
-            "1321b1697765d1083827bf164f22e06789ddc80dd27477565bbd4c84c4bb68b7293e950a3c10370e06659dc44b0fc641e637145ea43561d21d3908b00457e60b");
+            "272eae1acb15bdcfef508083bfe26ec86ea3a4f8fa92fa282ece1a3e54560b119a76cc1d98749a8f258a881b4635ef3553049847ff2fe5558c3b990bb0860706");
     byte[] sighashValue = HexBin
-            .decode("0a87ac3e896cc434695db48d0020fffa9f2c8bc75dfafaf4fbc7b7659fb84d95");
-    byte[] spendCv = HexBin.decode("68e08957ad1b46fb29c45f15a2a3ace028ebc4706240d19f6d441385be24279d");
-    byte[] outputCv1 = HexBin.decode("d6c2225e36a76320ae1c74e9ba9ae5d5b4a65ff70aa3dc900971edd17668fc4d");
-    byte[] outputCv2 = HexBin.decode("2af8b99497705539f8506f20867ef69b87e03bf90bbe52d90476f6b98369a5a1");
+            .decode("cbe9b02601afc8346b375e54cea3a966a45f1843cd51224e3198f169a5755df1");
+    byte[] spendCv = HexBin.decode("648d4a3715480e01c629a4525f5050787e00f41225510ea5cfe6de9469b92824973c803055e01fd4b6411b2abf7b4bf98e4a822745c684bbafa9dea232c7a1da");
+    byte[] outputCv = HexBin.decode("a49d7642de7c239e6ff4061a8adfaaac02dc3206c5d1687a735fa7f83de5745f72910acabe5f958f798b70bfe8343ce3f478c0234ec2229c69ea165aaafb9b18");
 
     boolean ret = LibrustzcashWrapper.getInstance()
-            .librustzcashSaplingFinalCheckNew(valueBalance, bindingSig, sighashValue, spendCv, outputCv1, outputCv2);
+            .librustzcashSaplingFinalCheckNew(valueBalance, bindingSig, sighashValue, spendCv, 64, outputCv, 64);
     Assert.assertTrue(ret);
   }
 }
