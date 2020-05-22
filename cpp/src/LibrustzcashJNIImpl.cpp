@@ -591,6 +591,42 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     return jb;
 }
 
+
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashSaplingFinalCheckNew
+ * Signature: (J[B[B[BI[BI)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSaplingFinalCheckNew
+  (JNIEnv * env, jobject, jlong valueBalance, jbyteArray bindingSig, jbyteArray sighashValue, jbyteArray spendCv, jint spendCvLen, jbyteArray outputCv, jint outputCvLen) {
+//    bool librustzcash_sapling_final_check_new(
+//        int64_t valueBalance,
+//        const unsigned char *bindingSig,
+//        const unsigned char *sighashValue,
+//        const unsigned char *spendCv,
+//        size_t spendCvLen,
+//        const unsigned char *outputCv,
+//        size_t outputCvLen,
+
+//    );
+    const unsigned char * b = (const unsigned char *) env->GetByteArrayElements(bindingSig, nullptr);
+    const unsigned char * s = (const unsigned char *) env->GetByteArrayElements(sighashValue, nullptr);
+    const unsigned char * scv = (const unsigned char *) env->GetByteArrayElements(spendCv, nullptr);
+    const unsigned char * ocv = (const unsigned char *) env->GetByteArrayElements(outputCv, nullptr);
+
+    if (b == NULL || s == NULL || scv == NULL || ocv == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = bool2jboolean(librustzcash_sapling_final_check_new((int64_t) valueBalance,b,s,scv,(size_t) spendCvLen,ocv,(size_t) outputCvLen));
+    env->ReleaseByteArrayElements(bindingSig,(jbyte*)b,0);
+    env->ReleaseByteArrayElements(sighashValue,(jbyte*)s,0);
+    env->ReleaseByteArrayElements(spendCv,(jbyte*)scv,0);
+    env->ReleaseByteArrayElements(outputCv,(jbyte*)ocv,0);
+    return jb;
+}
+
+
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
  * Method:    librustzcashSaplingVerificationCtxFree

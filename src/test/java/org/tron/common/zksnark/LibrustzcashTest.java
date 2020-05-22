@@ -687,4 +687,21 @@ public class LibrustzcashTest {
 
     LibrustzcashWrapper.getInstance().librustzcashSaplingVerificationCtxFree(ctx);
   }
+
+  @Test
+  public void librustzcashCheckFinalCheckNewCorrect()
+  // FinalCheckNew
+  {
+    long valueBalance = 0L;
+    byte[] bindingSig = HexBin.decode(
+            "272eae1acb15bdcfef508083bfe26ec86ea3a4f8fa92fa282ece1a3e54560b119a76cc1d98749a8f258a881b4635ef3553049847ff2fe5558c3b990bb0860706");
+    byte[] sighashValue = HexBin
+            .decode("cbe9b02601afc8346b375e54cea3a966a45f1843cd51224e3198f169a5755df1");
+    byte[] spendCv = HexBin.decode("648d4a3715480e01c629a4525f5050787e00f41225510ea5cfe6de9469b92824973c803055e01fd4b6411b2abf7b4bf98e4a822745c684bbafa9dea232c7a1da");
+    byte[] outputCv = HexBin.decode("a49d7642de7c239e6ff4061a8adfaaac02dc3206c5d1687a735fa7f83de5745f72910acabe5f958f798b70bfe8343ce3f478c0234ec2229c69ea165aaafb9b18");
+
+    boolean ret = LibrustzcashWrapper.getInstance()
+            .librustzcashSaplingFinalCheckNew(valueBalance, bindingSig, sighashValue, spendCv, 64, outputCv, 64);
+    Assert.assertTrue(ret);
+  }
 }
