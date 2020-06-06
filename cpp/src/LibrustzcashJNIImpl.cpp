@@ -4,6 +4,7 @@
 
 #include "org_tron_common_zksnark_Librustzcash_LibrustzcashJNI.h"
 #include "librustzcash.h"
+#include <iomanip>
 #include <iostream>
 using namespace std;
 
@@ -13,6 +14,14 @@ jboolean bool2jboolean(bool b) {
     } else {
         return JNI_FALSE;
     }
+}
+
+void printCharArray(const unsigned char *a, int len) {
+    int i = 0;
+    for (; i < len; i++) {
+         cout << noshowbase << setw(2) << setfill('0') << hex << (int)(*(a+i));
+    }
+    cout << endl;
 }
 
 /*
@@ -524,13 +533,20 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     const unsigned char * si = (const unsigned char *) env->GetByteArrayElements(sighashValue, nullptr);
 
     cout << "check spend:" << endl;
-    cout << "cv " << c << endl;
-    cout << "anchor " << a << endl;
-    cout << "nullifier " << n << endl;
-    cout << "rk " << r << endl;
-    cout << "proof " << z << endl;
-    cout << "spendAuthSig " << sp << endl;
-    cout << "sighashValue " << si << endl;
+    cout << "cv " << endl;
+    printCharArray(c, 32);
+    cout << "anchor " << endl;
+    printCharArray(a, 32);
+    cout << "nullifier " << endl;
+    printCharArray(n, 32);
+    cout << "rk " << endl;
+    printCharArray(r, 32);
+    cout << "proof " << endl;
+    printCharArray(z, 192);
+    cout << "spendAuthSig " << endl;
+    printCharArray(sp, 64);
+    cout << "sighashValue " << endl;
+    printCharArray(si, 32);
 
     if (c == NULL || a == NULL || n == NULL || r == NULL || z == NULL || sp == NULL || si == NULL)
     {
@@ -567,10 +583,14 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     const unsigned char * z = (const unsigned char *) env->GetByteArrayElements(zkproof, nullptr);
 
     cout << "check output: " << endl;
-    cout << "cv " << cvPoint << endl;
-    cout << "cm " << cmPoint << endl;
-    cout << "epk " << e << endl;
-    cout << "proof " << z << endl;
+    cout << "cv " << endl;
+    printCharArray(cvPoint, 32);
+    cout << "cm " << endl;
+    printCharArray(cmPoint, 32);
+    cout << "epk " << endl;
+    printCharArray(e, 32);
+    cout << "proof " << endl;
+    printCharArray(z, 32);
 
     if (cvPoint == NULL || cmPoint == NULL || e == NULL || z == NULL)
     {
@@ -633,10 +653,14 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     const unsigned char * ocv = (const unsigned char *) env->GetByteArrayElements(outputCv, nullptr);
 
     cout << "new final check " << endl;
-    cout << "binding sig " << b << endl;
-    cout << "hash " << s << endl;
-    cout << "spend cv" << scv << endl;
-    cout << "output cv " << ocv << endl;
+    cout << "binding sig " << endl;
+    printCharArray(b, 64);
+    cout << "hash " << endl;
+    printCharArray(s, 32);
+    cout << "spend cv" << endl;
+    printCharArray(scv, spendCvLen);
+    cout << "output cv " << endl;
+    printCharArray(ocv, outputCvLen);
 
     if (b == NULL || s == NULL || scv == NULL || ocv == NULL)
     {
