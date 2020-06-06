@@ -5,6 +5,7 @@
 #include "org_tron_common_zksnark_Librustzcash_LibrustzcashJNI.h"
 #include "librustzcash.h"
 #include <iostream>
+using namespace std;
 
 jboolean bool2jboolean(bool b) {
     if (b) {
@@ -521,6 +522,16 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     const unsigned char * z = (const unsigned char *) env->GetByteArrayElements(zkproof, nullptr);
     const unsigned char * sp = (const unsigned char *) env->GetByteArrayElements(spendAuthSig, nullptr);
     const unsigned char * si = (const unsigned char *) env->GetByteArrayElements(sighashValue, nullptr);
+
+    cout << "check spend:" << endl;
+    cout << "cv " << c << endl;
+    cout << "anchor " << a << endl;
+    cout << "nullifier " << n << endl;
+    cout << "rk " << r << endl;
+    cout << "proof " << z << endl;
+    cout << "spendAuthSig " << sp << endl;
+    cout << "sighashValue " << si << endl;
+
     if (c == NULL || a == NULL || n == NULL || r == NULL || z == NULL || sp == NULL || si == NULL)
     {
       return JNI_FALSE;
@@ -554,6 +565,13 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     const unsigned char * cmPoint = (const unsigned char *) env->GetByteArrayElements(cm, nullptr);
     const unsigned char * e = (const unsigned char *) env->GetByteArrayElements(ephemeralKey, nullptr);
     const unsigned char * z = (const unsigned char *) env->GetByteArrayElements(zkproof, nullptr);
+
+    cout << "check output: " << endl;
+    cout << "cv " << cvPoint << endl;
+    cout << "cm " << cmPoint << endl;
+    cout << "epk " << e << endl;
+    cout << "proof " << z << endl;
+
     if (cvPoint == NULL || cmPoint == NULL || e == NULL || z == NULL)
     {
       return JNI_FALSE;
@@ -613,6 +631,12 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     const unsigned char * s = (const unsigned char *) env->GetByteArrayElements(sighashValue, nullptr);
     const unsigned char * scv = (const unsigned char *) env->GetByteArrayElements(spendCv, nullptr);
     const unsigned char * ocv = (const unsigned char *) env->GetByteArrayElements(outputCv, nullptr);
+
+    cout << "new final check " << endl;
+    cout << "binding sig " << b << endl;
+    cout << "hash " << s << endl;
+    cout << "spend cv" << scv << endl;
+    cout << "output cv " << ocv << endl;
 
     if (b == NULL || s == NULL || scv == NULL || ocv == NULL)
     {
