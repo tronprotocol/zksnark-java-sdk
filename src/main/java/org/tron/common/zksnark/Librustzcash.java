@@ -129,6 +129,17 @@ class Librustzcash {
     INSTANCE.librustzcashToScalar(input, result);
   }
 
+  public boolean librustzcashSaplingCheckSpendNew(byte[] cv, byte[] anchor, byte[] nullifier,
+      byte[] rk, byte[] zkproof, byte[] spendAuthSig, byte[] sighashValue) {
+    return INSTANCE.librustzcashSaplingCheckSpendNew(cv, anchor, nullifier, rk, zkproof,
+        spendAuthSig, sighashValue);
+  }
+
+  public boolean librustzcashSaplingCheckOutputNew(byte[] cv, byte[] cm, byte[] ephemeralKey,
+      byte[] zkproof) {
+    return INSTANCE.librustzcashSaplingCheckOutputNew(cv, cm, ephemeralKey, zkproof);
+  }
+
   public boolean librustzcashSaplingFinalCheckNew(long valueBalance, byte[] bindingSig, byte[] sighashValue,
                                                   byte[] spendCv, int spendCvLen, byte[] outputCv, int outputCvLen) {
     return INSTANCE.librustzcashSaplingFinalCheckNew(valueBalance, bindingSig, sighashValue, spendCv, spendCvLen, outputCv, outputCvLen);
@@ -223,6 +234,12 @@ class Librustzcash {
     private native void librustzcashTreeUncommitted(byte[] result);
 
     private native void librustzcashToScalar(byte[] input, byte[] result);
+
+    private native boolean librustzcashSaplingCheckSpendNew(byte[] cv, byte[] anchor,
+        byte[] nullifier, byte[] rk, byte[] zkproof, byte[] spendAuthSig, byte[] sighashValue);
+
+    private native boolean librustzcashSaplingCheckOutputNew(byte[] cv, byte[] cm,
+        byte[] ephemeralKey, byte[] zkproof);
 
     private native boolean librustzcashSaplingFinalCheckNew(long valueBalance, byte[] bindingSig, byte[] sighashValue,
                                                             byte[] spendCv, int spendCvLen, byte[] outputCv, int outputCvLen);

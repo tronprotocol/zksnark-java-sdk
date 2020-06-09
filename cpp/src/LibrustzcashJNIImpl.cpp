@@ -591,6 +591,72 @@ JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024Librus
     return jb;
 }
 
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashSaplingCheckSpendNew
+ * Signature: ([B[B[B[B[B[B[B)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSaplingCheckSpendNew
+  (JNIEnv * env, jobject, jbyteArray cv, jbyteArray anchor, jbyteArray nullifier, jbyteArray rk, jbyteArray zkproof, jbyteArray spendAuthSig, jbyteArray sighashValue) {
+//    bool librustzcash_sapling_check_spend_new(
+//        const unsigned char *cv,
+//        const unsigned char *anchor,
+//        const unsigned char *nullifier,
+//        const unsigned char *rk,
+//        const unsigned char *zkproof,
+//        const unsigned char *spendAuthSig,
+//        const unsigned char *sighashValue
+//    );
+    const unsigned char * c = (const unsigned char *) env->GetByteArrayElements(cv, nullptr);
+    const unsigned char * a = (const unsigned char *) env->GetByteArrayElements(anchor, nullptr);
+    const unsigned char * n = (const unsigned char *) env->GetByteArrayElements(nullifier, nullptr);
+    const unsigned char * r = (const unsigned char *) env->GetByteArrayElements(rk, nullptr);
+    const unsigned char * z = (const unsigned char *) env->GetByteArrayElements(zkproof, nullptr);
+    const unsigned char * sp = (const unsigned char *) env->GetByteArrayElements(spendAuthSig, nullptr);
+    const unsigned char * si = (const unsigned char *) env->GetByteArrayElements(sighashValue, nullptr);
+    if (c == NULL || a == NULL || n == NULL || r == NULL || z == NULL || sp == NULL || si == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = bool2jboolean(librustzcash_sapling_check_spend_new(c,a,n,r,z,sp,si));
+    env->ReleaseByteArrayElements(cv,(jbyte*)c,0);
+    env->ReleaseByteArrayElements(anchor,(jbyte*)a,0);
+    env->ReleaseByteArrayElements(nullifier,(jbyte*)n,0);
+    env->ReleaseByteArrayElements(rk,(jbyte*)r,0);
+    env->ReleaseByteArrayElements(zkproof,(jbyte*)z,0);
+    env->ReleaseByteArrayElements(spendAuthSig,(jbyte*)sp,0);
+    env->ReleaseByteArrayElements(sighashValue,(jbyte*)si,0);
+    return jb;
+}
+
+/*
+ * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
+ * Method:    librustzcashSaplingCheckOutputNew
+ * Signature: ([B[B[B[B)Z
+ */
+JNIEXPORT jboolean JNICALL Java_org_tron_common_zksnark_Librustzcash_00024LibrustzcashJNI_librustzcashSaplingCheckOutputNew
+  (JNIEnv *env, jobject, jbyteArray cv, jbyteArray cm, jbyteArray ephemeralKey, jbyteArray zkproof) {
+//    bool librustzcash_sapling_check_output_new(
+//        const unsigned char *cv,
+//        const unsigned char *cm,
+//        const unsigned char *ephemeralKey,
+//        const unsigned char *zkproof
+//    );
+    const unsigned char * cvPoint = (const unsigned char *) env->GetByteArrayElements(cv, nullptr);
+    const unsigned char * cmPoint = (const unsigned char *) env->GetByteArrayElements(cm, nullptr);
+    const unsigned char * e = (const unsigned char *) env->GetByteArrayElements(ephemeralKey, nullptr);
+    const unsigned char * z = (const unsigned char *) env->GetByteArrayElements(zkproof, nullptr);
+    if (cvPoint == NULL || cmPoint == NULL || e == NULL || z == NULL)
+    {
+      return JNI_FALSE;
+    }
+    jboolean jb = bool2jboolean(librustzcash_sapling_check_output_new(cvPoint,cmPoint,e,z));
+    env->ReleaseByteArrayElements(cv,(jbyte*)cvPoint,0);
+    env->ReleaseByteArrayElements(cm,(jbyte*)cmPoint,0);
+    env->ReleaseByteArrayElements(ephemeralKey,(jbyte*)e,0);
+    env->ReleaseByteArrayElements(zkproof,(jbyte*)z,0);
+    return jb;
+}
 
 /*
  * Class:     org_tron_common_zksnark_Librustzcash_LibrustzcashJNI
