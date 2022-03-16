@@ -19,8 +19,8 @@ apply plugin: "java-library"
 apply plugin: "maven"
 apply plugin: "maven-publish"
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 // Dependency versions
 // ---------------------------------------
@@ -35,6 +35,7 @@ repositories {
 dependencies {
     testImplementation "junit:junit:$junitVersion"
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.69'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
