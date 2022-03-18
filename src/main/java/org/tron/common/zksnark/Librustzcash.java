@@ -3,6 +3,7 @@ package org.tron.common.zksnark;
 class Librustzcash {
   private static final LibrustzcashJNI INSTANCE = new LibrustzcashJNI();
   private long params_ctx = 0L;
+
   public void librustzcashInitZksnarkParams(String spend_path, String spend_hash,
       String output_path, String output_hash) {
     params_ctx = INSTANCE.librustzcashInitZksnarkParams(spend_path, spend_hash, output_path, output_hash);
