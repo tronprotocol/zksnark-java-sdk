@@ -2,10 +2,10 @@ package org.tron.common.zksnark;
 
 class Librustzcash {
   private static final LibrustzcashJNI INSTANCE = new LibrustzcashJNI();
-
+  private long params_ctx = 0L;
   public void librustzcashInitZksnarkParams(String spend_path, String spend_hash,
       String output_path, String output_hash) {
-    INSTANCE.librustzcashInitZksnarkParams(spend_path, spend_hash, output_path, output_hash);
+    params_ctx = INSTANCE.librustzcashInitZksnarkParams(spend_path, spend_hash, output_path, output_hash);
   }
 
   public void librustzcashZip32XskMaster(byte[] data, int size, byte[] m_bytes) {
@@ -70,13 +70,13 @@ class Librustzcash {
       byte[] rcm, byte[] ar, long value, byte[] anchor, byte[] witness, byte[] cv, byte[] rk,
       byte[] zkproof) {
     return INSTANCE.librustzcashSaplingSpendProof(
-        ctx, ak, nsk, diversifier, rcm, ar, value, anchor, witness, cv, rk, zkproof);
+          params_ctx, ctx, ak, nsk, diversifier, rcm, ar, value, anchor, witness, cv, rk, zkproof);
   }
 
   public boolean librustzcashSaplingOutputProof(long ctx, byte[] esk, byte[] diversifier,
       byte[] pk_d, byte[] rcm, long value, byte[] cv, byte[] zkproof) {
     return INSTANCE.librustzcashSaplingOutputProof(
-        ctx, esk, diversifier, pk_d, rcm, value, cv, zkproof);
+          params_ctx, ctx, esk, diversifier, pk_d, rcm, value, cv, zkproof);
   }
 
   public boolean librustzcashSaplingSpendSig(byte[] ask, byte[] ar, byte[] sighash, byte[] result) {
@@ -99,12 +99,12 @@ class Librustzcash {
   public boolean librustzcashSaplingCheckSpend(long ctx, byte[] cv, byte[] anchor,
       byte[] nullifier, byte[] rk, byte[] zkproof, byte[] spendAuthSig, byte[] sighashValue) {
     return INSTANCE
-        .librustzcashSaplingCheckSpend(ctx, cv, anchor, nullifier, rk, zkproof, spendAuthSig, sighashValue);
+        .librustzcashSaplingCheckSpend(params_ctx, ctx, cv, anchor, nullifier, rk, zkproof, spendAuthSig, sighashValue);
   }
 
   public boolean librustzcashSaplingCheckOutput(long ctx, byte[] cv, byte[] cm,
       byte[] ephemeralKey, byte[] zkproof) {
-    return INSTANCE.librustzcashSaplingCheckOutput(ctx, cv, cm, ephemeralKey, zkproof);
+    return INSTANCE.librustzcashSaplingCheckOutput(params_ctx, ctx, cv, cm, ephemeralKey, zkproof);
   }
 
   public boolean librustzcashSaplingFinalCheck(long ctx, long valueBalance, byte[] bindingSig,
@@ -131,13 +131,13 @@ class Librustzcash {
 
   public boolean librustzcashSaplingCheckSpendNew(byte[] cv, byte[] anchor, byte[] nullifier,
       byte[] rk, byte[] zkproof, byte[] spendAuthSig, byte[] sighashValue) {
-    return INSTANCE.librustzcashSaplingCheckSpendNew(cv, anchor, nullifier, rk, zkproof,
+    return INSTANCE.librustzcashSaplingCheckSpendNew(params_ctx, cv, anchor, nullifier, rk, zkproof,
         spendAuthSig, sighashValue);
   }
 
   public boolean librustzcashSaplingCheckOutputNew(byte[] cv, byte[] cm, byte[] ephemeralKey,
       byte[] zkproof) {
-    return INSTANCE.librustzcashSaplingCheckOutputNew(cv, cm, ephemeralKey, zkproof);
+    return INSTANCE.librustzcashSaplingCheckOutputNew(params_ctx, cv, cm, ephemeralKey, zkproof);
   }
 
   public boolean librustzcashSaplingFinalCheckNew(long valueBalance, byte[] bindingSig, byte[] sighashValue,
@@ -156,7 +156,7 @@ class Librustzcash {
 //      }
 //    }
 
-    private native void librustzcashInitZksnarkParams(String spend_path, String spend_hash,
+    private native long librustzcashInitZksnarkParams(String spend_path, String spend_hash,
         String output_path, String output_hash);
 
     private native void librustzcashZip32XskMaster(byte[] data, int size, byte[] m_bytes);
@@ -189,11 +189,11 @@ class Librustzcash {
 
     private native long librustzcashSaplingProvingCtxInit();
 
-    private native boolean librustzcashSaplingSpendProof(long ctx, byte[] ak, byte[] nsk, byte[] diversifier,
+    private native boolean librustzcashSaplingSpendProof(long params_ctx, long ctx, byte[] ak, byte[] nsk, byte[] diversifier,
         byte[] rcm, byte[] ar, long value, byte[] anchor, byte[] witness, byte[] cv, byte[] rk,
         byte[] zkproof);
 
-    private native boolean librustzcashSaplingOutputProof(long ctx, byte[] esk, byte[] diversifier,
+    private native boolean librustzcashSaplingOutputProof(long params_ctx, long ctx, byte[] esk, byte[] diversifier,
         byte[] pk_d, byte[] rcm, long value, byte[] cv, byte[] zkproof);
 
     private native boolean librustzcashSaplingSpendSig(byte[] ask, byte[] ar, byte[] sighash, byte[] result);
@@ -205,10 +205,10 @@ class Librustzcash {
 
     private native long librustzcashSaplingVerificationCtxInit();
 
-    private native boolean librustzcashSaplingCheckSpend(long ctx, byte[] cv, byte[] anchor,
+    private native boolean librustzcashSaplingCheckSpend(long params_ctx, long ctx, byte[] cv, byte[] anchor,
         byte[] nullifier, byte[] rk, byte[] zkproof, byte[] spendAuthSig, byte[] sighashValue);
 
-    private native boolean librustzcashSaplingCheckOutput(long ctx, byte[] cv, byte[] cm,
+    private native boolean librustzcashSaplingCheckOutput(long params_ctx, long ctx, byte[] cv, byte[] cm,
         byte[] ephemeralKey, byte[] zkproof);
 
     private native boolean librustzcashSaplingFinalCheck(long ctx, long valueBalance, byte[] bindingSig,
@@ -235,10 +235,10 @@ class Librustzcash {
 
     private native void librustzcashToScalar(byte[] input, byte[] result);
 
-    private native boolean librustzcashSaplingCheckSpendNew(byte[] cv, byte[] anchor,
+    private native boolean librustzcashSaplingCheckSpendNew(long params_ctx, byte[] cv, byte[] anchor,
         byte[] nullifier, byte[] rk, byte[] zkproof, byte[] spendAuthSig, byte[] sighashValue);
 
-    private native boolean librustzcashSaplingCheckOutputNew(byte[] cv, byte[] cm,
+    private native boolean librustzcashSaplingCheckOutputNew(long params_ctx, byte[] cv, byte[] cm,
         byte[] ephemeralKey, byte[] zkproof);
 
     private native boolean librustzcashSaplingFinalCheckNew(long valueBalance, byte[] bindingSig, byte[] sighashValue,
@@ -246,4 +246,3 @@ class Librustzcash {
 
   }
 }
-
