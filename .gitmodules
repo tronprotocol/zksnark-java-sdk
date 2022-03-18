@@ -1,5 +1,5 @@
 [submodule "rust/librustzcash"]
 	path = rust/librustzcash
-	url = https://github.com/3for/librustzcash.git
-	branch = feature/global_to_pointer
+	url = https://github.com/tronprotocol/librustzcash.git
+	branch = feature/zk_param_pointer
 	ignore=dirty
