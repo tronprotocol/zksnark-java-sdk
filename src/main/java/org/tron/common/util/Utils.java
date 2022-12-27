@@ -1,36 +1,26 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.tron.common.util;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.commons.io.FileUtils;
+import org.fusesource.hawtjni.runtime.Library;
 
 public interface Utils {
-
-  static String getLibraryByName(String name) throws IOException {
-    return getLibrary(name);
-  }
-
-  static String getLibrary(String name) throws IOException {
-    String platform;
-    String extension;
-    String os = System.getProperty("os.name");
-    if ("linux".equalsIgnoreCase(os)) {
-      platform = "linux";
-      extension = ".so";
-    } else if ("macos".equalsIgnoreCase(os) || os.toLowerCase().contains("mac")) {
-      platform = "macos";
-      extension = ".dylib";
-    } else {
-      throw new RuntimeException("unsupportedPlatformException");
-    }
-    InputStream in = Utils.class.getClassLoader().getResourceAsStream(
-        "native-package" + File.separator + platform + File.separator + name + extension);
-    File fileOut = new File(
-        System.getProperty("java.io.tmpdir") + File.separator + name + extension + "." + System.currentTimeMillis());
-    FileUtils.copyToFile(in, fileOut);
-    return fileOut.getAbsolutePath();
-  }
+    Library LIBRARY = new Library("zksnarkjni", Utils.class);
 
   static String getParamsFile(String fileName) {
     InputStream in = Utils.class.getClassLoader()

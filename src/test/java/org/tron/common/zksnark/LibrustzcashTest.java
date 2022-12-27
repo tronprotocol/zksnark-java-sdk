@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.tron.common.util.Utils;
 
 public class LibrustzcashTest {
-  private final static String BYTE_32_EMPTY = "0000000000000000000000000000000000000000000000000000000000000000";
+  private static final  String BYTE_32_EMPTY = "0000000000000000000000000000000000000000000000000000000000000000";
   private final long[] LONG_ARRAY = {-9223372036854775808L,0L,9223372036854775807L};
 
   @BeforeClass
