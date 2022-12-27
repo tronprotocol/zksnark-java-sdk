@@ -13,4 +13,21 @@ $ git submodule update --init --recursive
 
 # Required
 
-cmake (version >= 3.10.2)
+    cmake (version >= 3.10.2)
+
+    cargo
+
+    libtool
+
+    automake
+
+    mvn
+
+    jdk8(need JAVA_HOME set)
+
+# for m1
+```shell
+ cd cpp && mkdir build && cd build
+ CC=cc cmake ..
+ make 
+```
