@@ -24,8 +24,10 @@ link_directories(lib)
 
 set(zksnark_jni_include org_tron_common_zksnark_Librustzcash_LibrustzcashJNI.h)
 set(sodium_jni_include org_tron_common_zksnark_Libsodium_LibsodiumJNI.h)
+set(arkworks_jni_include org_tron_common_zksnark_Libarkworks_LibarkworksJNI.h)
 set(zksnark_jni_src LibrustzcashJNIImpl.cpp)
 set(sodium_jni_src LibsodiumJNIImpl.cpp)
+set(arkworks_jni_src LibarkworksJNIImpl.cpp)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src zksnark_srcs)
 
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/include)
@@ -35,6 +37,7 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 include_directories("${CMAKE_BINARY_DIR}")
 include_directories("${CMAKE_BINARY_DIR}/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/librustzcash/include")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/include")
 
 add_custom_command(
 		OUTPUT "${zksnark_jni_include}"
@@ -54,9 +57,21 @@ add_custom_command(
 		DEPENDS ${sodium_jni_include}
 )
 
+add_custom_command(
+		OUTPUT "${arkworks_jni_include}"
+		COMMAND ${Java_JAVAC_EXECUTABLE} -verbose
+		-h ${CMAKE_BINARY_DIR}/include
+		-d ${CMAKE_BINARY_DIR}/tmp
+		"${CMAKE_CURRENT_SOURCE_DIR}/../src/main/java/org/tron/common/zksnark/Libarkworks.java"
+		DEPENDS ${arkworks_jni_include}
+)
+
 set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_BINARY_DIR}/rust)
 set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
 		${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target
+		)
+set_property(DIRECTORY APPEND PROPERTY ADDITIONAL_MAKE_CLEAN_FILES
+		${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/target
 		)
 
 ExternalProject_Add(
@@ -71,7 +86,22 @@ ExternalProject_Add(
 		INSTALL_COMMAND ""
 		LOG_BUILD OFF)
 
-add_custom_target(rust ALL DEPENDS librustzcash)
+add_custom_target(rustzcash ALL DEPENDS librustzcash)
+
+# libarkworks
+ExternalProject_Add(
+		libarkworks
+		DOWNLOAD_COMMAND ""
+		CONFIGURE_COMMAND ""
+		BUILD_COMMAND cargo build
+		#		COMMAND cargo build
+		--package libarkworks
+		--release
+		BINARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks"
+		INSTALL_COMMAND ""
+		LOG_BUILD OFF)
+
+add_custom_target(rustarkworks ALL DEPENDS libarkworks)
 
 
 # libsodium
@@ -93,27 +123,31 @@ ADD_LIBRARY(zksnarkjni
 		SHARED
 		${CMAKE_CURRENT_SOURCE_DIR}/src/${zksnark_jni_src}
 		${CMAKE_CURRENT_SOURCE_DIR}/src/${sodium_jni_src}
+		${CMAKE_CURRENT_SOURCE_DIR}/src/${arkworks_jni_src}
 		${zksnark_src_dependencies}
 		${zksnark_jni_include}
 		${sodium_jni_include}
+		${arkworks_jni_include}
         ${zksnark_srcs}
 		)
 
 target_link_libraries(zksnarkjni
 		${CMAKE_THREAD_LIBS_INIT}
 		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/librustzcash/target/release/librustzcash.a"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../rust/libarkworks/target/release/libarkworks.a"
 		${NACL_DIR}/src/libsodium/src/libsodium/.libs/libsodium.a
 	)
 
-add_dependencies(zksnarkjni rust)
+add_dependencies(zksnarkjni rustzcash)
 add_dependencies(zksnarkjni libsodium)
+add_dependencies(zksnarkjni rustarkworks)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	SET_TARGET_PROPERTIES( zksnarkjni PROPERTIES LINK_FLAGS "${LINK_FLAGS} -Wl,--wrap=memcpy" )
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/linux)
+	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/META-INF/native/linux64)
 else()
-	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/native-package/macos)
+	INSTALL(TARGETS zksnarkjni LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/../src/main/resources/META-INF/native/osx64)
 endif()
