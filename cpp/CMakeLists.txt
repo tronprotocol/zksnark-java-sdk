@@ -143,7 +143,7 @@ add_dependencies(zksnarkjni libsodium)
 add_dependencies(zksnarkjni rustarkworks)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-	SET_TARGET_PROPERTIES( zksnarkjni PROPERTIES LINK_FLAGS "${LINK_FLAGS} -Wl,--wrap=memcpy" )
+	SET_TARGET_PROPERTIES( zksnarkjni PROPERTIES LINK_FLAGS "${LINK_FLAGS} -Wl,--wrap=memcpy -pthread" )
 endif()
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
