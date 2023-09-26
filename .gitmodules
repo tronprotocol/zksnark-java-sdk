@@ -1,5 +1,5 @@
 [submodule "rust/librustzcash"]
 	path = rust/librustzcash
 	url = https://github.com/tronprotocol/librustzcash.git
-	branch = release_vm_zksnarks_4.0
-	ignore=dirty
+	branch = release_vm_zksnarks_4.0_lto_false
+	ignore = dirty
