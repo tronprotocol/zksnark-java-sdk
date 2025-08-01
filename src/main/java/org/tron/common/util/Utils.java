@@ -16,22 +16,33 @@ package org.tron.common.util;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import org.apache.commons.io.FileUtils;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 import org.fusesource.hawtjni.runtime.Library;
 
 public interface Utils {
     Library LIBRARY = new Library("zksnarkjni", Utils.class);
 
   static String getParamsFile(String fileName) {
-    InputStream in = Utils.class.getClassLoader()
-        .getResourceAsStream("params" + File.separator + fileName);
-    File fileOut = new File(System.getProperty("java.io.tmpdir") + File.separator + fileName);
     try {
-      FileUtils.copyToFile(in, fileOut);
+      File target = Paths.get(System.getProperty("java.io.tmpdir"),
+          fileName + "." + System.currentTimeMillis()).toFile();
+      try (InputStream in = Thread.currentThread().getContextClassLoader()
+          .getResourceAsStream("params" + File.separator + fileName);
+           ){
+        if (in != null) {
+          Files.copy(in, target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+          target.deleteOnExit();
+          return target.getAbsolutePath();
+        } else {
+          throw new IOException("Resource not found: " + fileName);
+        }
+      }
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    return fileOut.getAbsolutePath();
   }
 
 }

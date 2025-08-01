@@ -40,7 +40,7 @@
   </parent>
   <groupId>io.github.tronprotocol</groupId>
   <artifactId>zksnark-java-sdk</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>bundle</packaging>
 
   <properties>
@@ -48,7 +48,6 @@
     <forge-project-id-uc>zksnark-java-sdk</forge-project-id-uc>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <hawtjni-version>1.18</hawtjni-version>
-    <commons-io-version>2.11.0</commons-io-version>
     <junit-version>4.13.2</junit-version>
     <jacoco.version>0.8.8</jacoco.version>
     <gpg.keyname>0xEF7F2D6C</gpg.keyname>
@@ -105,11 +104,6 @@
       <groupId>org.fusesource.hawtjni</groupId>
       <artifactId>hawtjni-runtime</artifactId>
       <version>${hawtjni-version}</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>${commons-io-version}</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
@@ -212,7 +206,6 @@
             <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>
               org.tron.common.*;version=${project.version},
-              org.apache.commons.*;version=${commons-io-version},
               org.fusesource.hawtjni.*;version=${hawtjni-version},
             </Export-Package>
             <Import-Package/>
