@@ -1,4 +1,4 @@
-package org.tron.common.zksnark;
+package org.linda.common.zksnark;
 
 public class Libsodium {
   private static final LibsodiumJNI INSTANCE = new LibsodiumJNI();

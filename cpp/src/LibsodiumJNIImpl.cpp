@@ -2,11 +2,11 @@
 // Created by ruipeng on 6/5/19.
 //
 
-#include "org_tron_common_zksnark_Libsodium_LibsodiumJNI.h"
+#include "org_linda_common_zksnark_Libsodium_LibsodiumJNI.h"
 #include "sodium.h"
 #include <iostream>
 
-JNIEXPORT jlong JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1state_1init
+JNIEXPORT jlong JNICALL Java_org_linda_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1state_1init
     (JNIEnv *, jobject) {
     crypto_generichash_blake2b_state* state_p = new crypto_generichash_blake2b_state();
     if (!state_p) {
@@ -16,7 +16,7 @@ JNIEXPORT jlong JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI
     return (jlong) state_p;
 }
 
-JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1state_1free
+JNIEXPORT void JNICALL Java_org_linda_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1state_1free
 (JNIEnv *, jobject, jlong state) {
     crypto_generichash_blake2b_state* state_p = (crypto_generichash_blake2b_state*) state;
     if (state_p) {
@@ -24,7 +24,7 @@ JNIEXPORT void JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
     }
 }
 
-JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1init_1salt_1personal
+JNIEXPORT jint JNICALL Java_org_linda_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1init_1salt_1personal
     (JNIEnv *env, jobject, jlong state, jbyteArray key, jint keylen, jint outlen, jbyteArray salt, jbyteArray personal) {
 //    int crypto_generichash_blake2b_init_salt_personal(crypto_generichash_blake2b_state *state,
 //                                                      const unsigned char *key,
@@ -51,7 +51,7 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
     return ret;
 }
 
-JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1update
+JNIEXPORT jint JNICALL Java_org_linda_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1update
     (JNIEnv *env, jobject, jlong state, jbyteArray in, jlong inlen) {
 //    int crypto_generichash_blake2b_update(crypto_generichash_blake2b_state *state,
 //                                          const unsigned char *in,
@@ -68,7 +68,7 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
     return ret;
 }
 
-JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1final
+JNIEXPORT jint JNICALL Java_org_linda_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1final
     (JNIEnv *env, jobject, jlong state, jbyteArray out, jint outlen) {
 //    int crypto_generichash_blake2b_final(crypto_generichash_blake2b_state *state,
 //                                         unsigned char *out,
@@ -87,7 +87,7 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
     return ret;
 }
 
-JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1salt_1personal
+JNIEXPORT jint JNICALL Java_org_linda_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1generichash_1blake2b_1salt_1personal
     (JNIEnv *env, jobject, jbyteArray out, jint outlen, jbyteArray in, jlong inlen, jbyteArray key, jint keylen, jbyteArray salt, jbyteArray personal) {
 //    int crypto_generichash_blake2b_salt_personal(unsigned char *out, size_t outlen,
 //                                                 const unsigned char *in,
@@ -123,7 +123,7 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
     return ret;
 }
 
-JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1aead_1chacha20poly1305_1ietf_1decrypt
+JNIEXPORT jint JNICALL Java_org_linda_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1aead_1chacha20poly1305_1ietf_1decrypt
     (JNIEnv *env, jobject, jbyteArray m, jlongArray mlen_p, jbyteArray nsec, jbyteArray c, jlong clen, jbyteArray ad, jlong adlen, jbyteArray npub, jbyteArray k) {
 //    int crypto_aead_chacha20poly1305_ietf_decrypt(unsigned char *m,
 //                                                  unsigned long long *mlen_p,
@@ -165,7 +165,7 @@ JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_
     return ret;
 }
 
-JNIEXPORT jint JNICALL Java_org_tron_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1aead_1chacha20poly1305_1ietf_1encrypt
+JNIEXPORT jint JNICALL Java_org_linda_common_zksnark_Libsodium_00024LibsodiumJNI_crypto_1aead_1chacha20poly1305_1ietf_1encrypt
     (JNIEnv *env, jobject, jbyteArray c, jlongArray clen_p, jbyteArray m, jlong mlen, jbyteArray ad, jlong adlen, jbyteArray nsec, jbyteArray npub, jbyteArray k) {
 //    int crypto_aead_chacha20poly1305_ietf_encrypt(unsigned char *c,
 //                                                  unsigned long long *clen_p,

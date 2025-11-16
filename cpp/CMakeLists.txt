@@ -22,8 +22,8 @@ include_directories($ENV{JAVA_HOME}/include/darwin)
 
 link_directories(lib)
 
-set(zksnark_jni_include org_tron_common_zksnark_Librustzcash_LibrustzcashJNI.h)
-set(sodium_jni_include org_tron_common_zksnark_Libsodium_LibsodiumJNI.h)
+set(zksnark_jni_include org_linda_common_zksnark_Librustzcash_LibrustzcashJNI.h)
+set(sodium_jni_include org_linda_common_zksnark_Libsodium_LibsodiumJNI.h)
 set(zksnark_jni_src LibrustzcashJNIImpl.cpp)
 set(sodium_jni_src LibsodiumJNIImpl.cpp)
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR}/src zksnark_srcs)
@@ -41,7 +41,7 @@ add_custom_command(
 		COMMAND ${Java_JAVAC_EXECUTABLE} -verbose
 		-h ${CMAKE_BINARY_DIR}/include
 		-d ${CMAKE_BINARY_DIR}/tmp
-		"${CMAKE_CURRENT_SOURCE_DIR}/../src/main/java/org/tron/common/zksnark/Librustzcash.java"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../src/main/java/org/linda/common/zksnark/Librustzcash.java"
 		DEPENDS ${zksnark_jni_include}
 )
 
@@ -50,7 +50,7 @@ add_custom_command(
 		COMMAND ${Java_JAVAC_EXECUTABLE} -verbose
 		-h ${CMAKE_BINARY_DIR}/include
 		-d ${CMAKE_BINARY_DIR}/tmp
-		"${CMAKE_CURRENT_SOURCE_DIR}/../src/main/java/org/tron/common/zksnark/Libsodium.java"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../src/main/java/org/linda/common/zksnark/Libsodium.java"
 		DEPENDS ${sodium_jni_include}
 )
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright (C) 2011, TRON Foundation.  All rights reserved.
+  Copyright (C) 2011, LINDA Foundation.  All rights reserved.
 
       https://fsf.org
 
@@ -38,7 +38,7 @@
     <artifactId>fusesource-pom</artifactId>
     <version>1.9</version>
   </parent>
-  <groupId>io.github.tronprotocol</groupId>
+  <groupId>io.github.lindaprotocol</groupId>
   <artifactId>zksnark-java-sdk</artifactId>
   <version>1.0.0</version>
   <packaging>bundle</packaging>
@@ -56,12 +56,12 @@
 
   <name>${project.artifactId}</name>
   <description>An uber jar which contains all the zksnark jni platform libraries and dependencies</description>
-  <url>https://github.com/tronprotocol/zksnark-java-sdk</url>
+  <url>https://github.com/lindaprotocol/zksnark-java-sdk</url>
   <inceptionYear>2022</inceptionYear>
 
   <organization>
-    <name>TRON Foundation</name>
-    <url>https://www.tron.network/</url>
+    <name>LINDA Foundation</name>
+    <url>https://www.linda.network/</url>
   </organization>
 
   <licenses>
@@ -73,9 +73,9 @@
   </licenses>
 
   <scm>
-    <connection>scm:https://github.com/tronprotocol/zksnark-java-sdk.git</connection>
-    <developerConnection>scm:https://github.com/tronprotocol/zksnark-java-sdk.git</developerConnection>
-    <url>https://github.com/tronprotocol/zksnark-java-sdk/tree/master</url>
+    <connection>scm:https://github.com/lindaprotocol/zksnark-java-sdk.git</connection>
+    <developerConnection>scm:https://github.com/lindaprotocol/zksnark-java-sdk.git</developerConnection>
+    <url>https://github.com/lindaprotocol/zksnark-java-sdk/tree/master</url>
     <tag>HEAD</tag>
   </scm>
 
@@ -83,9 +83,9 @@
   <developers>
     <developer>
       <id>geeks</id>
-      <name>TRON Foundation Development Team</name>
-      <organization>TRON</organization>
-      <organizationUrl>https://www.tron.network/</organizationUrl>
+      <name>LINDA Foundation Development Team</name>
+      <organization>LINDA</organization>
+      <organizationUrl>https://www.linda.network/</organizationUrl>
     </developer>
     <developer>
       <id>halibobo</id>
@@ -211,7 +211,7 @@
             <Bundle-Name>${project.artifactId}</Bundle-Name>
             <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
             <Export-Package>
-              org.tron.common.*;version=${project.version},
+              org.linda.common.*;version=${project.version},
               org.apache.commons.*;version=${commons-io-version},
               org.fusesource.hawtjni.*;version=${hawtjni-version},
             </Export-Package>
@@ -220,7 +220,7 @@
             <Implementation-Title>zksnark JNI</Implementation-Title>
             <Implementation-Version>${project.version}</Implementation-Version>
             <Embed-Dependency>
-              *;groupId=io.github.tronprotocol.zksnark-java-sdk;inline=META-INF/native/*,
+              *;groupId=io.github.lindaprotocol.zksnark-java-sdk;inline=META-INF/native/*,
             </Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
             <Bundle-NativeCode>

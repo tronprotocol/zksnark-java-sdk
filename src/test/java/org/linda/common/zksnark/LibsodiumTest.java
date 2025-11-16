@@ -1,10 +1,10 @@
-package org.tron.common.zksnark;
+package org.linda.common.zksnark;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.tron.common.util.Utils;
+import org.linda.common.util.Utils;
 
 public class LibsodiumTest {
 	public static int NOTEENCRYPTION_AUTH_BYTES = 16;
@@ -25,7 +25,7 @@ public class LibsodiumTest {
 	public static int ZC_OUTCIPHERTEXT_SIZE =
 			(ZC_OUTPLAINTEXT_SIZE + NOTEENCRYPTION_AUTH_BYTES);
 	
-	public static byte[] ZTRON_EXPANDSEED_PERSONALIZATION = {'Z', 't', 'r', 'o', 'n', '_', 'E', 'x',
+	public static byte[] ZLINDA_EXPANDSEED_PERSONALIZATION = {'Z', 't', 'r', 'o', 'n', '_', 'E', 'x',
 			'p', 'a', 'n', 'd', 'S', 'e', 'e', 'd'};
 	
 	public static final int crypto_generichash_blake2b_PERSONALBYTES = 16;
@@ -61,7 +61,7 @@ public class LibsodiumTest {
 		blob[32] = t;
 		
 		instance.cryptoGenerichashBlake2BInitSaltPersonal(
-				state, null, 0, 64, null, ZTRON_EXPANDSEED_PERSONALIZATION);
+				state, null, 0, 64, null, ZLINDA_EXPANDSEED_PERSONALIZATION);
 		instance.cryptoGenerichashBlake2BUpdate(state, blob, 33);
 		instance.cryptoGenerichashBlake2BFinal(state, ask, 64);
 		
@@ -81,7 +81,7 @@ public class LibsodiumTest {
 		blob[32] = t;
 		
 		instance.cryptoGenerichashBlake2BInitSaltPersonal(
-				state, null, 0, 64, null, ZTRON_EXPANDSEED_PERSONALIZATION);
+				state, null, 0, 64, null, ZLINDA_EXPANDSEED_PERSONALIZATION);
 		instance.cryptoGenerichashBlake2BUpdate(state, blob, 33);
 		instance.cryptoGenerichashBlake2BFinal(state, nsk, 64);
 		
@@ -101,7 +101,7 @@ public class LibsodiumTest {
 		blob[32] = t;
 		
 		instance.cryptoGenerichashBlake2BInitSaltPersonal(
-				state, null, 0, 64, null, ZTRON_EXPANDSEED_PERSONALIZATION);
+				state, null, 0, 64, null, ZLINDA_EXPANDSEED_PERSONALIZATION);
 		instance.cryptoGenerichashBlake2BUpdate(state, blob, 33);
 		instance.cryptoGenerichashBlake2BFinal(state, ovk, 64);
 		
@@ -114,7 +114,7 @@ public class LibsodiumTest {
 		byte[] block = HexBin.decode("a5d78d08a2450fcfd445bf260f8d35d130366a857ef40398121439d98eb84a8a86e590debb08355db1fd611b57433abe0853ef8f777f6124ad4bebe4008e15ce87619091b2e7cb72d7912d2363890984307ccf9506c9f319d14e723b1b4ed71225db42bb79eecd05448e1be8ebb1ce6f333a1ff3e45e18985c954eb611a71e47");
 		byte[] ock = new byte[NOTEENCRYPTION_CIPHER_KEYSIZE];
 		byte[] personalization = new byte[crypto_generichash_blake2b_PERSONALBYTES];
-		byte[] temp = "Ztron_Derive_ock".getBytes();
+		byte[] temp = "Zlinda_Derive_ock".getBytes();
 		System.arraycopy(temp, 0, personalization, 0, temp.length);
 		if (instance.cryptoGenerichashBlake2BSaltPersonal(ock, NOTEENCRYPTION_CIPHER_KEYSIZE,
 				block, 128,

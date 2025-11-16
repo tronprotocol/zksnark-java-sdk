@@ -1,4 +1,4 @@
-package org.tron.common.zksnark;
+package org.linda.common.zksnark;
 
 class Librustzcash {
   private static final LibrustzcashJNI INSTANCE = new LibrustzcashJNI();

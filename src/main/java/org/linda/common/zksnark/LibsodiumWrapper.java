@@ -11,9 +11,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.tron.common.zksnark;
+package org.linda.common.zksnark;
 
-import org.tron.common.util.Utils;
+import org.linda.common.util.Utils;
 
 public class LibsodiumWrapper {
     private static final Libsodium INSTANCE = new Libsodium();
