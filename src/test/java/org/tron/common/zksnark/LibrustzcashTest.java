@@ -1,6 +1,5 @@
 package org.tron.common.zksnark;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 import java.util.Arrays;
 import java.util.Random;
 import org.junit.Assert;

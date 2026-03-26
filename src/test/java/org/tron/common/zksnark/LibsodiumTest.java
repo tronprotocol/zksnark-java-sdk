@@ -1,6 +1,5 @@
 package org.tron.common.zksnark;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
