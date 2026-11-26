@@ -48,7 +48,7 @@
     <forge-project-id-uc>zksnark-java-sdk</forge-project-id-uc>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <hawtjni-version>1.18</hawtjni-version>
-    <commons-io-version>2.11.0</commons-io-version>
+    <commons-io-version>2.22.0</commons-io-version>
     <junit-version>4.13.2</junit-version>
     <jacoco.version>0.8.8</jacoco.version>
     <gpg.keyname>0xEF7F2D6C</gpg.keyname>
